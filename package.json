@@ -1,0 +1,27 @@
+{
+    "name": "doc",
+    "version": "0.0.1",
+    "description": "",
+    "keywords": [
+        ""
+    ],
+    "homepage": "http://JSLite.io",
+    "author": "wangchuxi",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "licenses": "MIT",
+    "idoc": {
+        "theme": "default",
+        "md": [
+            "首页.md",
+            {
+                "其它": [
+                    "笔记一.md",
+                    "笔记二.md"
+                ]
+            }
+        ]
+    }
+}
