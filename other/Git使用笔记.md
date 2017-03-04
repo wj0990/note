@@ -9,7 +9,7 @@ Git使用笔记
 
 ## 克隆仓库
 
-```
+```shell
 git clone https://github.com/wangchuxi/note.git
 ```
 
