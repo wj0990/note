@@ -44,3 +44,21 @@ git push -u origin master # 8. 提交代码到远程origin仓库 的 master 分�
 git config --global core.quotepath false
 ```
 
+## git 学习中常用的一些命令
+
+```shell
+mkdir Git                     # 1. 在此路径中创建Git文件夹
+ls                            # 2. 查看当前目录
+pwd                           # 3. 显示当前路径
+cd Git                        # 4. 进入Git文件
+echo “# test” >> README.md    # 5. 将字符串“#test”写入 README.md，并且生成REMADME.md
+git init                      # 6. 把此路径通过“git init”转变成git可以管理的文件
+git add README.md             # 7. 将文件添加到本地git仓库。
+git commit -m “说明”         # 8. 对本次提交做出说明，一遍日后很方便的找出此次提交的记录。
+git status                    # 9. 查看这次提交的状态。
+git diff README.md             # 10. 查看修改的文件，修改详细部分。
+   # 11. 添加远程仓库的地址取名 origin关联远程仓库。
+git remote add orign http://github.com/wangchuxi/test.git
+git push -u orign master   # 11. 提交代码到远程仓库的 master 分支
+
+```
