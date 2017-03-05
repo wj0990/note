@@ -40,9 +40,9 @@ Markdown 的学习笔记
 [baidu](http://www.baidu.com)
 
 ## 表格的制作（貌似有些繁琐）
-| table   | 1       |  3     | 4       |
-| ------- |:-------:| ------:| ------- |
-| table   | 1       |  3     | 4       |
-| table   | 1       |  3     | 4       |
-| table   | 1       |  3     | 4       |
+| table       | 1       |  3     | 4       |
+| ----------- |:-------:| ------:| ------- |
+| one line    | eeee    | eerre  | 34ppp   |
+| second line | nnnnnn  |  rows  | 4rrrrv  |
+| third line  | bbbb    |  eeee  | 4ererff |
     
