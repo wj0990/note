@@ -45,4 +45,11 @@ Markdown 的学习笔记
 | one line    | eeee    | eerre  | 34ppp   |
 | second line | nnnnnn  |  rows  | 4rrrrv  |
 | third line  | bbbb    |  eeee  | 4ererff |
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
     
