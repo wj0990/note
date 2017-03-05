@@ -34,7 +34,7 @@ Markdown 的学习笔记
 ```
 
 ## 图片插入和链接插入
-  #### 图片插入
+#### 图片插入
 ![Mou icon](http://Mouapp.com/129_icon) 
-  #### 链接插入
+#### 链接插入
 [baidu](http://www.baidu.com)
