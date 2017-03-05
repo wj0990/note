@@ -45,3 +45,17 @@ Markdown 的学习笔记
 | one line    | eeee    | eerre  | 34ppp   |
 | second line | nnnnnn  |  rows  | 4rrrrv  |
 | third line  | bbbb    |  eeee  | 4ererff |
+
+## 代码的引用
+我们程序猿代码的引用有“``”
+example:
+`<div class="example">
+    <a href="#"></a>
+</div>`
+
+## 分割线的引用
+分割线的引用用三个以上```.
+```
+这是分割线
+
+
