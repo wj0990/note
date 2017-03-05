@@ -38,3 +38,11 @@ Markdown 的学习笔记
 ![Mou icon](http://Mouapp.com/129_icon) 
 #### 链接插入
 [baidu](http://www.baidu.com)
+
+## 表格的制作（貌似有些繁琐）
+| table   | 1       |  3     | 4       |
+| ------- |:-------:| ------:| ------- |
+| table   | 1       |  3     | 4       |
+| table   | 1       |  3     | 4       |
+| table   | 1       |  3     | 4       |
+    
