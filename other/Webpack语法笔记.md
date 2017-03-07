@@ -52,11 +52,11 @@ yarn：是Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 
 
 
 ###### 方法一
-`$ npm install webpack -g `       # 全局安装
+```$ npm install webpack -g        # 全局安装
 
 ###### 方法二
-`$ npm install webpack --save`    # 本地安装，存储到配置（package.json）中
-  
+$ npm install webpack --save    # 本地安装，存储到配置（package.json）中
+ ``` 
 
 
 
