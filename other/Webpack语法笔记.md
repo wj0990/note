@@ -40,10 +40,10 @@ yarn：是Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 
 # 安装
   1.首先要安装[Note](https://nodejs.org/en/) ，Node.js 自带了软件包管理器npm,用npm 安装来安装Webpack。
 `
-# 方法一
+#### 方法一
 $ npm install webpack -g        # 全局安装
 
-# 方法二
+#### 方法二
 $ npm install webpack --save    # 本地安装，存储到配置（package.json）中
 `
 
