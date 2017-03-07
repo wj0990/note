@@ -58,12 +58,12 @@ git commit -m “说明”         # 8. 对本次提交做出说明，一遍日�
 git status                    # 9. 查看这次提交的状态。
 git diff README.md             # 10. 查看修改的文件，修改详细部分。
    # 11. 添加远程仓库的地址取名 origin关联远程仓库。
-git remote add orign http://github.com/wangchuxi/test.git
+git remote add origin http://github.com/wangchuxi/test.git
 git push -u orign master   # 11. 提交代码到远程仓库的 master 分支
 
 ```
 
-关联远程仓库
+## 关联远程仓库
 
 ``` shell
 git remote -v                # 查看远程仓库地址
@@ -72,4 +72,14 @@ git remote add origin https://github.com/wangchuxi/test.git
 git remote remove origin # 删除名字为 origin 的远程仓库
 # 或者下面方式删除，上面为下面的简写方式
 git remote rm https://github.com/wangchuxi/test.git    #删除远程的仓库
+```
+
+
+## 删除rm
+
+``` shell
+rm                           #删除本地文件
+        # 删除时候遇到本地无法删除的时候报错：is a directory（你删除的是一个目录）应用一下命令 
+rm -d       #后面加上该目录名称，就可删除该目录
+rm r/R      # 删除子目录及文件。          
 ```
