@@ -5,7 +5,7 @@
     1.  一个打包工具
     2.  一个模块加载工具
     3.  各种资源都可以当成模块来处理
-    4.  网站 (Webpack网站)[http://webpack.github.io/]
+    4.  网站 [Webpack网站](http://webpack.github.io/)
 
 ## Webpack 优势
 
