@@ -28,12 +28,15 @@
 
 ### NPM
 [npm](https://www.npmjs.com/) (node package manager) node.js的包管理器，用于node插件管理（安装、卸载、更新、管理依赖等）。
+
 #### 作用
+
 1. JS开发人员可以轻松地更新、共享和重用代码。
 2. 管理项目中的依赖包模块
 3. 与他人分享和接收反馈
 
 #### 替代工具 
+
 cnpm：淘宝网提供的国内NPM镜像，因为npm安装插件是从外国服务器下载，受网络影响大，可能出现异常。
 yarn：是Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 包管理工具，是为了弥补 npm 的安装包（packages）的速度不够快、拉取的 packages 可能版本不同、npm 允许在安装 packages 时执行代码可能产生安全隐患等一些缺陷而出现的
 
@@ -43,8 +46,11 @@ yarn：是Facebook、Google、Exponent 和 Tilde 联合推出了一个新的 JS 
 ###### 方法一
 ``` shell
 $ npm install webpack -g      # 全局安装
+```
 
 ###### 方法二
+
+```
 $ npm install webpack --save    # 本地安装，存储到配置（package.json）中
 ```
 
@@ -64,6 +70,27 @@ $ npm install webpack --save    # 本地安装，存储到配置（package.json�
 ```
 
 
+## 运行
+../node_modules/.bin/webpack webpack.config.js   个人理解找到webpack  来解析后面的。
+../node_modules/.bin/webpack-dev-server webpack.config.js                    测试用的如果后面配置文件就一个，就不用 加webpack.config.js
+     <!--  设置登录地址 -->
+<!-- /Project is running at http://localhost:8080 -->  测试时用这个地址显示
 
+
+
+
+
+
+
+module.loader: 其中test是正则表达式，对符合的文件名使用相应的加载器./.css$/会匹配 xx.css文件，但是并不适用于xx.sass或者xx.css.zip文件.
+url-loader: 它会将样式中引用到的图片转为模块来处理; 配置信息的参数“?limit=8192”表示将所有小于8kb的图片都转为base64形式。
+entry: 模块的入口文件。依赖项数组中所有的文件会按顺序打包，每个文件进行依赖的递归查找，直到所有模块都被打成包；
+output：模块的输出文件，其中有如下参数：
+filename: 打包后的文件名
+path: 打包文件存放的绝对路径。
+publicPath: 网站运行时的访问路径。
+relolve.extensions: 自动扩展文件的后缀名，比如我们在require模块的时候，可以不用写后缀名的。
+relolve.alias: 模块别名定义，方便后续直接引用别名，无须多写长长的地址
+plugins 是插件项;
 
 
