@@ -52,7 +52,7 @@ expample:
     var y=      new Boolean;  # 布尔值  
     var cars=   new Array;    # 数组
     var person= new Object;   # 对象乎所有的事物都是对象。
-
+- - - 
     变量的作用域：
      # 在函数内申明的属于局部变量，作用在函数内，函数执行完就结束，反正就属全局变量，作用全局 
  expample:
