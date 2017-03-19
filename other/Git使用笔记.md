@@ -134,3 +134,35 @@ sudo        给管理员权限。
 8.git pull origin master         # 将远程的拉到本地
 然后git add ......
 ```
+
+##拉取远程代码到本地合并：
+```shell
+1. git remote -v     #查看远程仓库分枝。
+2. git remote add upstream git@git.showgold.cn:wabg/wabg-server.git
+                    #拉取远程项目到upstream分支上。
+3.  #查看远程仓库分枝。
+4.  git fetch upstream    #拉取upstream分支到本地。
+5.  git status           #查看状态有么有没有提交的。
+6.  ##如有不同就提交掉。如果不想提交并还原原来版本。
+    git checkout api-doc/登录.md   git diff api-doc/登录.md
+7.  git merge upsteam/dev-s       #将分支合并。
+8.  git fetch upstream
+9.  git remote
+```
+
+
+## 上传 并且加载新项目：
+
+git remote -v 查看远程仓库    
+
+git pull upstream   拉回上游分支    
+
+git checkout dev  切换到分支到dev   
+
+git merge upstream/dev   (合并项目)  
+
+git pull upstream 拉回上游分支   
+
+git init       加载package.json 文件   
+
+npm run dev    运行分支
