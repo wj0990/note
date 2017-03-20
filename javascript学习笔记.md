@@ -40,7 +40,7 @@ console.log()         # 浏览器的debug工具输出日志
 ```
 5.  对象
 
-```json
+```js
 {
   name:"wJ",
   age:"39",
