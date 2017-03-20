@@ -15,13 +15,13 @@ console.log()         # 浏览器的debug工具输出日志
 
 ### 字面量
 
-**(number)数字: 一个字面量是一个常量**
+**数字(number):** 一个字面量是一个常量
 
 ```js
 1    3.14  1323f5 
 ```
 
-**(string)字符串:  (单双引号都行。)**
+**字符串(string):** 单双引号都行。
 
 ```js
 "hello"    'love' 
@@ -33,7 +33,7 @@ console.log()         # 浏览器的debug工具输出日志
 4+5    4*5
 ```
 
-**（Array）数组:**
+**数组（Array）**
 
 ```js
 [20, 100, 29]
@@ -146,19 +146,13 @@ var person={firstname:"Jim",lastname:"deo",id:33};
 
 javascript 字符串储存和处理文本。
 
-1.可索引位置访问字符串
-
-`var character = carname[7];`
-
-2. 字符圈中符号不能与字符串符号相同或者用转意符合
-
-`var answer = "It's alright";`
-`var y = "He is called \"Johnny";`
-
-3. 字符串长度计算
-
-`var txt = "abcd";`
-`var sln = txt.length;`
+1. 可索引位置访问字符串，`var character = carname[7];`
+1. 字符圈中符号不能与字符串符号相同或者用转意符合
+  1. `var answer = "It's alright";`
+  1. `var y = "He is called \"Johnny";`
+1. 字符串长度计算
+  1. `var txt = "abcd";`
+  1. `var sln = txt.length;`
 
 
 ### 字符串属性
