@@ -5,6 +5,7 @@ Git使用笔记
 
 - [基本使用命令](#基本使用命令)
 - [解决中文乱码](#解决中文乱码)
+- [关联远程仓库](#关联远程仓库)
 
 
 ## 基本使用命令
@@ -74,12 +75,11 @@ git remote remove origin # 删除名字为 origin 的远程仓库
 git remote rm https://github.com/wangchuxi/test.git    #删除远程的仓库
 ```
 
-
 ## 删除rm
 
 ``` shell
-rm                           #删除本地文件
-        # 删除时候遇到本地无法删除的时候报错：is a directory（你删除的是一个目录）应用一下命令 
+rm     #删除本地文件
+       # 删除时候遇到本地无法删除的时候报错：is a directory（你删除的是一个目录）应用一下命令 
 rm -d       #后面加上该目录名称，就可删除该目录
 rm r/R      # 删除子目录及文件。
 mv test.js ../    #将文件移到上级目录。 所有
@@ -90,38 +90,44 @@ rm -rf test   删除关于test
 git rm -r --cached .  撤销上次add      
 ```
 
-# 查看
+## 查看
+
 ``` shell
 git log --pretty         
 git show     #查看查看某次提交文件作出了哪些修改
 
 ```
 
-# 写入
+## 写入
+
 ```shell
 mkdir test    #新建test 文件
 echo "" >> README.md   #将空白字符写入 REAMDE.md 并新建它。也可以是文件移动。
 touch test.html       #新建文本。
 ```
-# 修改
+
+## 修改
+
 ```shell
 git reset commit_id （回退到上一个 提交的节点 代码还是原来你修改的） 
 git reset –hard commit_id （回退到上一个commit节点， 代码也发生了改变，变成上一次的）
 ```
-#创建
-```shell- reset HEAD 如果后面什么都不跟的话 就是上一次add 里面的全部撤销了 
-git reset HEAD XXX/XXX/XXX.Java 就是对某个文件进行撤销了
 
+## 创建
 
-```
-
-```
-sudo        给管理员权限。
-```
-
-# 当提交代码出现冲突的时候：
 ```shell
-1. 将所有代码全部push 到库里去 git add.    #将全部代码上传到库里去。
+- reset HEAD 如果后面什么都不跟的话 就是上一次add 里面的全部撤销了 
+git reset HEAD XXX/XXX/XXX.Java 就是对某个文件进行撤销了
+```
+
+```shell
+sudo        # 给管理员权限。
+```
+
+## 当提交代码出现冲突的时候：
+
+```shell
+1. 将所有代码全部push 到库里去 git add.     #将全部代码上传到库里去。
 2. git pull origin master               #将master分枝上面的内容pull到本地。
   # 爆出冲突及文件“The following untracked working tree files would be overwritten by merge:”，
 3.  git pull origin master --allow-unrelated-histories 
@@ -132,10 +138,11 @@ sudo        给管理员权限。
       # 重新关联远程仓库。
 7.git remote -v      #查看远程仓库 看在哪个分枝    
 8.git pull origin master         # 将远程的拉到本地
-然后git add ......
+# 然后git add ......
 ```
 
-##拉取远程代码到本地合并：
+## 拉取远程代码到本地合并：
+
 ```shell
 1. git remote -v     #查看远程仓库分枝。
 2. git remote add upstream git@git.showgold.cn:wabg/wabg-server.git
@@ -153,16 +160,13 @@ sudo        给管理员权限。
 
 ## 上传 并且加载新项目：
 
-git remote -v 查看远程仓库    
+```shell
+git remote -v           # 查看远程仓库    
+git pull upstream       # 拉回上游分支    
+git checkout dev        # 切换到分支到dev   
+git merge upstream/dev  # (合并项目)  
+git pull upstream       # 拉回上游分支   
+git init                # 加载package.json 文件   
+npm run dev             # 运行分支
+```
 
-git pull upstream   拉回上游分支    
-
-git checkout dev  切换到分支到dev   
-
-git merge upstream/dev   (合并项目)  
-
-git pull upstream 拉回上游分支   
-
-git init       加载package.json 文件   
-
-npm run dev    运行分支
