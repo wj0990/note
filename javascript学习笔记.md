@@ -148,11 +148,11 @@ javascript 字符串储存和处理文本。
 
 1. 可索引位置访问字符串，`var character = carname[7];`
 1. 字符圈中符号不能与字符串符号相同或者用转意符合
-  1. `var answer = "It's alright";`
-  1. `var y = "He is called \"Johnny";`
+    - `var answer = "It's alright";`
+    - `var y = "He is called \"Johnny";`
 1. 字符串长度计算
-  1. `var txt = "abcd";`
-  1. `var sln = txt.length;`
+    - `var txt = "abcd";`
+    - `var sln = txt.length;`
 
 
 ### 字符串属性
