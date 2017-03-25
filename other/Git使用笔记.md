@@ -95,6 +95,8 @@ git rm -r --cached .  撤销上次add
 ``` shell
 git log --pretty         
 git show     #查看查看某次提交文件作出了哪些修改
+git diff     #查看更改内容。git
+git checkout test.html  #f返回以前版本。
 
 ```
 

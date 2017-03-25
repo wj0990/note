@@ -448,3 +448,373 @@ function myFunction(){
     }
 }
 ```
+
+### typeof 操作符：
+
+typeof 操作符来检测变量的数据类型。
+
+```js
+typeof "John"                 //返回  string
+typeof "3.14"                 //返回  number    
+typeof "false"                //返回  boolean  
+typeof [1,2,3]                //返回  object
+typeof {name:'john', age:34}  //返回  object
+
+```
+
+### Null
+
+null 表示 "什么都没有"是个空值
+
+```js
+var person;                    //值为空
+person = unfined;              //通过unfined清空   
+typeof undefined               // undefined
+typeof null                    // object
+null === undefined             // false
+null == undefined              // true
+
+```
+
+### js数据类型（以及查看类型类型）
+
+Number() 转换为数字， String() 转换为字符串， Boolean() 转化为布尔值。
+
+```
+| 转换符|数据 | 返回结果 |
+| ---- | ---- |
+|typeof |John     | string|
+|       |3.14     |number|
+|       |NaN     |boolean|
+|       |False     |object|
+|       |[1,2,3]     |object|
+|       |{name:'Jone', age:34;}|object|
+|       |function(){}  |object|
+|       |myCar    |nuderfined| //(没有申明)
+|       |null     |object|
+|        |   |function|
+```
+
+### constructor 属性
+
+constructor 属性返回所有 JavaScript 变量的构造函数。
+  写法 "John".constructor
+```js
+| 转换符|数据 | 返回结果 |
+| ---- | ---- |
+|constructor|"John"     | String(){ [native code] }|
+|           |(3.14)     |Number()  { [native code] }|
+|            |false     |Boolean() { [native code] }|
+|            |[1,2,3]   | Array()   { [native code] }|
+|            |{name:'Jone', age:34;}|Object(){ [native code] }|
+|            |function(){}  |Function(){ [native code] }|
+|            |new Date()   |Date(){ [native code] }
+```
+
+#### 例子：1
+
+```js
+var myDate = new Date();
+document.getElementById("demo").innerHTML = isDate(myDate);
+function isDate(myDate) {
+    return myDate.constructor.toString().indexOf("Date") > -1;
+}
+// indexOF(); 返回字符串到首次出现的地方并返回字母所在的位置。
+// isDate();  判断函数是否是时间
+// constructor  返回变量的函数构造
+// toString();  可把一个逻辑值转换为字符串,并返回结果
+// 结果为true
+```
+
+#### 例子：2
+
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("demo").innerHTML = isArray(fruits);
+function isArray(myArray) {
+    return myArray.constructor.toString().indexOf("Array") > -1;
+}
+
+//isArray()  判断函数是否是数组
+```
+
+### to string()
+
+   将数字，字母，变量布尔值，表达式：，日期 等 转换为字符串：
+   Number方法有类似效果
+
+```js
+x.toString()      = string(x)           //变量转换为字符圈 x 并返回
+(123).toString()  = string(123)         //数字转换为字符串 123  并反回
+(100 + 23).toString() = string(100+23)  //数字表达式转换为字符串
+false toString() = String(false)        //返回false
+ture toString() = String(true)          //返回 "ture" 
+Date().toString() = string(Date)        //返回"Thu Mar 23 2017 22:01:49 GMT+0800 (CST)"
+```
+
+#### 更多讲数字转换为字符串
+
+```js
+|方法|描述|
+| -------- | ----------- |
+|toExponential()|把对象的值转换为指数计数法。|  //没有明白
+|toFixed()|把数字转换为字符串，结果的小数点后有指定位数的数字|
+|toPrecision()|把数字格式化为指定的长度|
+```
+
+### Date方法 将日期转换为字符串的函数：
+
+``` js
+|方法|描述|
+| ----------- | ------------ |
+|getDate()|从 Date 对象返回一个月中的某一天 (1 ~ 31)|
+|getDay()|从 Date 对象返回一周中的某一天 (0 ~ 6)|
+|getFullYear()| Date 对象以四位数字返回年份|
+|getHours()| 返回 Date 对象的小时 (0 ~ 23)。|
+|getMilliseconds()|返回 Date 对象的小时 (0 ~ 23)|
+|getMinutes()|返回 Date 对象的分钟 (0 ~ 59)。|
+|getMonth()|从 Date 对象返回月份 (0 ~ 11)。|
+|getSeconds()|返回 Date 对象的秒数 (0 ~ 59)。|
+|getDTime()|返回 1970 年 1 月 1 日至今的毫秒数。|
+```
+
+### Number方法：
+将自符串转换为数字,其他的字符串会转换为 NaN (不是个数字)
+```js
+|方法|描述|
+|Number("3.14")|3.14|
+|Number(" ")|0|
+|Number("")|0|
+|Number("11 12")|NaN|
+```
+
+#### 其它转换数字的方法
+
+```js
+
+|方法|描述|
+|parseFloat()|解析一个字符串，并返回一个浮点数|
+|parselnt()|解析一个字符串，并返回一个整数。|
+```
+
+### 正则表达式
+
+正则表达式由一个字符系列形成的搜索模式，它可以是个字符也可以是复杂的模式
+可以用搜索模式来描述要查询内容，可用于所有文本搜索和替换操作。
+   类似于路径。邮箱可用于正表达式来规定用户输入。
+
+#### 修饰符
+
+```js
+ 例如：/microsoft/i
+
+i     //匹配大小写不敏感
+g    //全局匹配  找到所有匹配的。
+m    //执行多个匹配
+```
+
+#### 正则表达式查找范围
+[]查找某范围字符
+```js
+|表达式|描述|
+|--------|---------|
+|[abc]|查找[]之间任何数字|
+|[0-9]|查找任何0-9的数字|
+|(x/y)|查找以|分割对象|
+```
+
+#### 元字符
+
+```js
+|元字符|描述|
+|-----|------|
+|\d|查找数字|
+|\s|查找空白字符|
+|\b|匹配单词边界|
+|\uxxxx|查找16进制XXXX规定的Unicode|
+//后面三个不懂
+```
+
+#### 量词
+
+```
+|量词|描述|
+|-----|------|
+|n+|匹配至少一个n字符串|
+|n*|匹配0个或多个n字符串|
+|n?|匹配匹配0个或一个n的字符串|
+```
+
+#### search()方法使用字符串
+
+```js
+function myFunction(){
+  var str = "visit Runoob!";
+  var n = str.serach("Runoob");
+  document.getElementById("demo".innerHTML = n)
+}
+// 返回结果为6   str变量里的字符串从0开始，到第六位出现。
+```
+
+#### replace()方法使用正则表达式和字符串。
+
+```js
+//HTML部分省略
+//<p id="demo">Microsoft!</p>
+
+function myFunction(){
+  var str = document.getElementById("demo")
+  var txt = str.replace(/microsoft/i,"Runoob");  
+                         //表达式主体 i 为后缀修饰起不分大小写 
+document.getElementById("demo").innerHTML = txt;
+}
+
+//例子2替换
+
+function myfunction(){
+  var str = document.getElementById("demo").innerHTML;
+  var txt = str.replace("Microsoft","runoob");
+  docunemt.getElementById("demo").innerHTML = txt;
+}
+
+```
+
+#### test()
+
+test()是正则表达式的方法
+用来检测一个字符串是否匹配某种模式，如果字符串中含有匹配的文本，则返回true否则返回eles。
+
+```js
+/e/.test("The best things in life are free!") //搜索字符串中的e 返回为ture
+```
+
+#### exec()
+
+exec()用来检索字符串中正则表达式的匹配，函数返回一个数组，用来存放匹配结果，如果不匹配
+则返回null
+
+```js
+/e/.exec("The best things in life are free!");  //返回字符串e。
+```
+
+#### RegExp对象
+
+RegExp 对象是一个预定义了属性和方法的正则表达式对象
+
+```js
+var patt1=new RegExp("e");   =  var patt1= /e/;
+```
+
+### js错误 — throw，try,catch
+try语句测试代码块错误
+catch 语句处理错误
+throw语句创建自定义错误
+
+#### try和catch
+try语句允许我们定义在执行错误测试的代码块。
+catch语句允许我们定义当try代码块发生错误时，所执行的代码块。
+catch 和try同时出现
+
+```js
+function message()
+{
+  try{
+    addalert("Welcome guest!");
+  }catch(err){
+    txt="本页一个错。\n\n;"
+    txt="错误描述：+err.message + "\n\n";
+    txt+="点击确定继续。\n\n";
+    alert(txt);
+  }
+}
+```
+
+#### Throw语句
+
+throw语句允许我们创建自定义错误。
+术语：创建抛出异常（excepition）。
+throw与try和catch一起使用，能够控制程序流，并生成自定义错误。
+
+```js
+function myFunction(){
+  try
+  {
+    var x=document.getElementById("demo").value;
+    if(x=="") throw "值为空";
+    if(isNaN(x)) throw "不是数字";
+    if(x>10) throw "太大";
+    if(x<5) throw "太小";
+  }
+  catch(err)
+  {
+    var y=document.getElementById("mess");
+    y.innerHTML="错误:" +err +"。";
+  }
+}
+```
+
+### 调试工具
+
+对代码`错误`,`逻辑错误`，用console.log()方法进行打日志。
+
+```js
+function(c){
+  a=5;
+  b=6;
+  c=a+b;
+  console.log(c);
+}
+
+```
+
+### 设置断点
+debugger关键字
+对代码进行调试时可以对后面的代码进行打断，让代码不会往下运行。
+如果没有开启调试工具则断点不起作用。
+
+```js
+//<p id="demo"></p>
+var x = 100 * 4;
+debugeer;
+document.getElementById("demo").innerHTML = x;
+```
+
+### 变量提升
+
+函数及变量的声明都将被提升到函数的最顶部。
+变量可以在使用后声明，也就是变量可以先使用再声明。
+
+```js
+x = 5; // 变量 x 设置为 5
+elem = document.getElementById("demo"); // 查找元素 
+elem.innerHTML = x;                     // 在元素中显示 x
+var x; // 声明 x
+
+//得出结果为 5；
+//变量必须在先  声明可以在前在后都一样
+```
+
+变量初始化的话就不会被提升  var x = 4; （初始化x）
+
+```js
+var x = 5; // 初始化 x
+var y;     // 声明 y
+elem = document.getElementById("demo"); // 查找元素
+elem.innerHTML = x + " " + y;           // 显示 x 和 y
+y = 7;    // 设置 y 为 7
+```
+
+#### 严格模式（use strict）
+
+（strict mode）严谨模式下运行。
+
++ use strict  不是一条语句，但是是一个字面量表达式，严格模式下不能使用没申明的变量
++ js旧版本里备被忽略。
++ 支持的浏览器有 IE10+，chrome13+，Safari5.1+,Opera12+
++ js语法有漏洞，不合理，不严谨，得到怪异的结果，从而降低了编辑器效率。
++ 用于测试时，测试代码的严谨性。
+
+```js
+"use strict";
+x = 3.14;       // 报错 (x 未定义)
+```
