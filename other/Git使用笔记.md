@@ -97,6 +97,8 @@ git log --pretty
 git show     #查看查看某次提交文件作出了哪些修改
 git diff     #查看更改内容。git
 git checkout test.html  #f返回以前版本。
+git branch -v:   #查看本地当前代码的状况（版本号）
+git branch -av #查看所有分枝(版本号)其它功能后期再了解。
 
 ```
 
@@ -171,4 +173,6 @@ git pull upstream       # 拉回上游分支
 git init                # 加载package.json 文件   
 npm run dev             # 运行分支
 ```
+
+
 
