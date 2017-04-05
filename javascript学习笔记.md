@@ -142,6 +142,15 @@ var cars=["saab","volvo","bmw"];
 var person={firstname:"Jim",lastname:"deo",id:33};
 ```
 
+
+
+
+
+
+
+
+
+
 ### 字符串
 
 javascript 字符串储存和处理文本。
@@ -818,3 +827,679 @@ y = 7;    // 设置 y 为 7
 "use strict";
 x = 3.14;       // 报错 (x 未定义)
 ```
+
+#### js使用误区
+
+> 赋值运算符应用错误
+
+在 JavaScript 程序中如果你在 if 条件语句中使用赋值运算符的等号 (=) 将会产生一个错误结果, 正确的方法是使用比较运算符的两个等号 (==)。
+
+if 条件语句返回 false (是我们预期的)因为 x 不等于 10:
+
+#### 比较运算符常见出现的错误
+
+#### js 表单
+
+
+> html表单输入的数据可以通过js来验证，验证其正确性，确保数据有效。
++ 验证表单数据是否为空？
++ 验证输入是否是一个正确的email地址？
++ 验证日期是否输入正确？
++ 验证表单输入内容是否为数字型？
+
+下面的例子对html部分省略掉。
+
+##### js表单验证
+
+```js
+// 判断表单字段（fname）值是否存在，如果存的就弹消息，如不存在就阻止提交
+funciton validateFrom(){
+  var x = document.froms["myFrom"]["fname"].value;
+  if (x == null || x ==""){
+    alert("请输入名称");
+    return false;
+  }
+}
+//如下 函数在from表单提交时被调用。
+```
+
+`调用上面函数的方法`
+
+```html
+<form name="myForm" action="demo-form.php" onsubmit="return validateForm()" method="post">
+姓: <input type="text" name="fname">
+<input type="submit" value="提交">
+</form>
+
+```
+
+##### E-mail 验证
+
+>检查输入数据是否符合电子邮件地址的语法
+数据必须包含@和（.）符号 并且@不能在首位，@后面必须有一个(.)字符。
+例如：`379925517@qq.com`
+
+```js
+function validateFrom(){
+  var x = document.froms["myFrom"]["email"].value;
+  var atpos = x.indexOf("@");
+  var dotpos=x.lastIndexof(".");
+  if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length){
+        return message(code:1; "邮箱格式错误")
+  }
+}
+```
+
+```html
+<form name="myForm" action="demo-form.php" onsubmit="return validateForm();" method="post">
+    Email: <input type="text" name="email">
+    <input type="submit" value="提交">
+</form>
+```
+
+```js
+ // 对输入的数字进行判断。
+function myFunction() {
+    var x, text;
+
+    // 获取 id="numb" 的值
+    x = document.getElementById("numb").value;
+
+    // 如果输入的值 x 不是数字或者小于 1 或者大于 10，则提示错误 Not a Number or less than one or greater than 10
+    if (isNaN(x) || x < 1 || x > 10) {
+        text = "输入错误";
+    } else {
+        text = "输入正确";
+    }
+    document.getElementById("demo").innerHTML = text;
+}
+```
+
+
+``` html
+// HTML表单验证通过自行
+ <form action="demo_form.php" method="post">
+  <input type="text" name="fname" required>
+  <input type="submit" value="提交">
+</form>
+```
+
+##### 数据验证
+
+> 为确保用户输入的数据有效。
+ 
+ 数据验证有：
++ 必要字段是否输入？
++ 数据是否合法？
++ 是数据字段是否输入了文本？
+
+数据验证为确保用户输入正确数据。可以通过不同方法定义和不同方式调用。
+`服务端验证`:数据提交到服务器上做验证。
+`客户端验证`: `（·side validation）`数据在发送服务端之前，在浏览器上验证。
+
+#### 验证API
+##### HTML 约束验证
+（后面补充）
+
+
+
+#### JSON
+
+ - JSON是一种轻量级数据转换格式
+ - 用于储存和传输数据的格式。
+ - 用于服务端向网页传送数据。
+ - JSON的格式是文本，可被任何编程语言读取并作为数据传递。
+
+##### JSON 格式化为js的对象
+
+JSON语法跟 创建js对象代码相同。
+所以js程序很容易将JSON数据转化为js的对象。
+使用 JavaScript 内置函数 JSON.parse() 将字符串转换为 JavaScript 对象:
+
+```json      
+    //json数组   
+var text = '{ "sites" : [' +
+  '{ "name":"Runoob" , "url":"www.runoob.com" },' +
+  '{ "name":"Google" , "url":"www.google.com" },' +
+  '{ "name":"Taobao" , "url":"www.taobao.com" } ]}';
+  
+obj = JSON.parse(text);  //将json格式的字符串转化为js对象
+document.getElementById("demo").innerHTML = obj.sites[1].name + " " + obj.sites[1].url;
+```
+
+##### JSON语法规则
+
+>例子引用上面的那个例子
+
++ 数据为 键/值 对。
++ 数据由逗号分隔。
++ 大括号保存对象
++ 方括号保存数组
+
+##### 相关函数
+
+|函数|描述|
+|-------|-------|
+|JSON.parse()|JSON字符串转化为js|
+|JSON.string()|js转化为json字符串|
+
+#### js:void(0)含义
+
+> void()操作符操指定要计算一个表达式但是不返回值。
+
+```js
+void func()
+javascript:void func()
+
+或者
+
+void(func())
+javascript:void(func())
+```
+
+### js代码规范
+
+>代码规范增强代码可读性
+
++ `变量名`推荐使用驼峰式   `firstName = "john`;
++ `空格`与`运算符`（= + - * ／）前后加空格  `var x = y + z`
++ `代码缩进`  （如今软件都智能化了就不用解释了）
++ 语句规则  一条代码通常以`;`
+
+
+
+#### 函数定义
+
++ 使用关键字function定义函数。
++ 函数通过声明定义，也可以是一个表达式。
++ 函数声明后需要调用才能够执行。
++ 
+```js
+function myFunction(a,b){
+    return a*b;   
+}
+myFunction(2,5);
+ //结果为10
+```
+
+函数可以储存在变量里，之后变量可做函数调用，通常不为匿名函数，通过变量调用
+```js
+var x = function(a,b){return a * b};
+var z = x(3, 4);
+z  //执行z函数
+```
+
+#### 构造函数
+
+构造函数作用：要得到一个类的实例时，往往是要运行其构造函数的
+
+　　构造函数创建的三个基本要求：函数名首字母大写；构造函数内部使用this关键字来指向即将生成的对象实例；使用new关键字来调用构造函数并返回对象实例。
+
+
+
+
+
+
+初始化一个函数，构造方法，在类被初始化的时候自动加载，无需写代码调用。
+函数如果用于创建新的对象，称之为对象的构造函数。
+我们声明一个类后，为这个类声明一个方法，这个方法名和类名是一样的
+```js
+var myFunction = new Function("a", "b", "return a * b");
+
+var x = myFunction(4, 3);
+//结果等同于
+var myFunction = function (a, b) {return a * b}
+
+var x = myFunction(4, 3);
+
+```
+
+函数可以作为一个值来使用，或者一个表达式。
+
+```js
+function myFunction(a, b){
+  return a * b;
+}
+var x = myFunction(4,5);
+// 函数作为一个表达式使用
+
+function myFunction(a, b) {
+    return a * b;
+}
+
+var x = myFunction(4, 3) * 2;
+
+```
+
+#### 函数是对象
+
+js函数有属性和方法，所以它还是一个对象，
+
+```js
+  //arguments.length属性返回函数调用是接受函数的个数。
+
+function myFunction(a, b) {
+    return arguments.length;
+}
+Function(3,4);
+// 返回结果是2，
+```
+
+```js
+// 将函数转换为字符串并返回。
+
+unction myFunction(a, b) {
+    return a * b;
+}
+
+var txt = myFunction.toString();
+
+```
+
+#### 函数传参数
+
++ 函数对参数值没有进行检查
++ 函数传参分为显式参数(`arameters`)和隐式传参(Arguments).
++ 前者在函数定义时就列出，后者是函数调用时直接给真正的值。
++ 显示传餐函数在定义时没有指定数据类型，隐式参数也没有对类型进行检测。
++ 隐式参数在调用时没有提供参数，则默认参数为nudefined
++ 
+```js
+function myFunction(x, y) {
+    y = y || 0;
+    return x * y;
+}
+myFunction(4);
+//y值为nudefine 所以Y就为0.
+```
+
+#### Arguments 对象
+
+当调用时设置参数过多，则无法找到相对应的参数名就无法引用了，只能使用 arguments 对象来调用。
+
+```js
+x = findMax(1, 123, 500, 115, 44, 88);
+ 
+function findMax() {
+    var i, max = arguments[0];//声明一个i 变量和max为数组里第一个
+    //判断如参数个数为一个  则返回这个值为最大
+    if(arguments.length < 2) return max;
+     //用循环依次拉出所有对象
+    for (i = 0; i < arguments.length; i++) {
+      // 依次和第一个数进行比较，如果这个值大于第一个值，则赋值Max继续比较
+        if (arguments[i] > max) {
+            max = arguments[i];
+        }
+    }
+    return max;
+}
+500
+```
+
+```js
+x = sumAll(1, 123, 500, 115, 44, 88);
+ 
+function sumAll() {
+    var i, sum = 0;
+    for (i = 0; i < arguments.length; i++) {
+        sum += arguments[i];
+    }
+    return sum;
+}
+```
+#### 通过值传递参数
+
++ 在函数中调用的参数是函数的隐式参数。
++ JavaScript 隐式参数通过值来传递：函数仅仅只是获取值。
++ 如果函数修改参数的值，不会修改显式参数的初始值（在函数外定义）。
++ 隐式参数的改变在函数外是不可见的。
+
+#### 通过对象传递参数
+
++ 在JavaScript中，可以引用对象的值。
++ 因此我们在函数内部修改对象的属性就会修改其初始的值。
++ 修改对象属性可作用于函数外部（全局变量）。
++ 修改对象属性在函数外是可见的。
+
+
+#### 函数调用
+
+函数的四种调用方式不同  在于`this` 的初始化。
+
+##### this关键字
+
+this指向函数执行时的当前对象
+
+#### 调用函数
+
+> 函数中的代码在函数被调用后执行。
+
+下面例子函数不属于任何对象，默认为全局对象。
+在HTML中全局对象就是页面，全局对象就是（window）
+调用时可以写成`window.myFunction()`
+`这种调用是常用方法，但是作用是全局容易产生冲突。`
+
+```js
+function myFunction(a, b) {
+    return a * b;
+}
+myFunction(10, 2);           // myFunction(10, 2) 返回 20
+```
+
+#### 作为函数方法调用函数
+
+call() 和 apply() 是预定义的函数方法。 两个方法可用于调用函数，两个方法的第一个参数必须是对象本身。
+`call`方法: 
+语法：`call(thisObj，Object)`
+定义：调用一个对象的一个方法，以另一个对象替换当前对象。
+个人理解：a.call(b,arg1,arg2..)就是a对象的方法应用到b对象上。
+说明：
+call 方法可以用来代替另一个对象调用一个方法。call 方法可将一个函数的对象上下文从初始的上下文改变为由 thisObj 指定的新对象。 
+如果没有提供 thisObj 参数，那么 Global 对象被用作 thisObj。 
+
+apply方法： 
+语法：apply(thisObj，[argArray])
+定义：应用某一对象的一个方法，用另一个对象替换当前对象。 
+说明： 
+如果 argArray 不是一个有效的数组或者不是 arguments 对象，那么将导致一个 TypeError。 
+如果没有提供 argArray 和 thisObj 任何一个参数，那么 Global 对象将被用作 thisObj， 并且无法被传递任何参数。
+
+```js
+function myFunction(a, b) {
+    return a * b;
+}   //将myFunction的方法应用到myObject上
+myObject = myFunction.call(myObject, 10, 2);     // 返回 20
+
+function myFunction(a, b) {
+    return a * b;
+}
+myArray = [10, 2];
+myObject = myFunction.apply(myObject, myArray);  // 返回 20
+```
+
+#### 闭包
+ 
+##### 变量 
+
+js变量可以是全局变量或局部变量。
+`全局变量`：作用全局，在web上属于window，可作用全局所有脚本.
+`局部变量`：作用所属函数内部，其它不影响。
+变量如果不声明，则它就是全局变量。
+
+###### 变量生命周期
+
+    后面再补充
+全局变量的作用域是全局性的，即在整个JavaScript程序中，全局变量处处都在。
+而在函数内部声明的变量，只在函数内部起作用。这些变量是局部变量，作用域是局部性的；函数的参数也是局部性的，只在函数内部起作用。
+
+##### 计数器困境
+
+设想下如果你想统计一些数值，且该计数器在所有函数中都是可用的。
+你可以使用全局变量，函数设置计数器递增：
+```js
+var counter = 0;   //页面上的任何脚本都能改变计数器，即便没有调用 add() 函数
+
+function add() {
+  //var counter = 0; 如果将上面的声明移到函数内部，
+  //会是函数每次被调用计算器每次重置为1.
+
+   return counter += 1;
+}
+
+add();
+add();
+add();
+
+// 计数器现在为 3
+```
+
+#### 内嵌函数
+
++ 所有函数都能访问全局变量。  
++ js所有函数都能访问它们上一层的作用域。
+Js支持嵌套函数。嵌套函数可以访问上一层的函数变量。
+该实例中，内嵌函数 plus() 可以访问父函数的 counter 变量：
+
+```js
+function add() {
+    var counter = 0;
+    function plus() {counter += 1;}
+    plus();    
+    return counter; 
+}
+```
+
+#### 闭包
+
+闭包就是能够读取其他函数内部变量的函数。
+闭包就是将函数内部和函数外部连接起来的一座桥梁。
+闭包的用途:一个是前面提到的可以读取函数内部的变量，
+另一个就是让这些变量的值始终保持在内存中。
+
+```js
+var add = (function () {
+    var counter = 0;
+    return function () {return counter += 1;}
+})();
+
+add();
+add();
+add();
+
+// 计数器为 3
+```
+
+#### this关键字
+函数运行时，自动生成的一个内部对象，只能在函数内部使用。
+this关键字虽然会根据环境变化，但是它始终代表的是调用当前函数的那个对象。 
+
+##### 方法调用模式
+
+ 当函数被保存为一个对象的属性时，它就可称为这个对象的方法。当一个方法被调用时，this被绑定到这个对象上。如果调用表达式包含一个提取属性的动作（. 或 []），那么它被称为方法调用。例如：
+
+```js
+var name = "window";
+var obj = {
+    name: "kxy",
+    sayName: function() {
+        console.log(this.name);
+    }
+};
+obj.sayName();  //kxy
+```
+
+
+##### 函数模式调用
+
+当一个函数并非一个对象的属性时，那么它就是被当做函数来调用的。在此种模式下，this被绑定为全局对象，在浏览器环境下就是window对象。例如：
+```js
+var name = "window";
+function sayName() {
+    console.log(this.name);
+}
+sayName();
+
+// undifine
+```
+
+##### 构造函数模式
+
+ 如果在一个函数前面加上new关键字来调用，那么就会创建一个连接到该函数的prototype成员的新对象，同时，this会被绑定到这个新对象上。这种情况下，这个函数就可以成为此对象的构造函数。例如：
+
+```js
+function Obj() {
+    this.name = "kxy";
+}
+var person = new Obj();
+console.log(person.name);   //kxy
+```
+
+##### apply调用模式
+
+ 在JS中，函数也是对象，所有函数对象都有两个方法：apply和call，这两个方法可以让我们构建一个参数数组传递给调用函数，也允许我们改变this的值。例如：
+
+```js
+var name = "window";
+var person = {
+    name: "kxy"
+};
+function sayName() {
+    console.log(this.name);
+}
+sayName();    //window
+sayName.apply(person);   //kxy
+sayName.apply();    //window
+```
+
+
+一个函数并非一个对象的属性时，那么它就是被当做函数来调用的。在此种模式下，this被绑定为全局对象，在浏览器环境下就是window对象。例如：
+
+
+
+```js 
+var name = "window";
+var obj = {
+    name: "kxy",
+    sayName: function() {
+        console.log(this.name);
+    }
+};
+obj.sayName();  //kxy   sayName函数作为对象obj的方法调用，所以函数体中的this就代表obj对象。
+```
+
+
+
+ 
+#### 对象
+
++ 我对js面向对象编程的理解是，将需要调用或者修改的数据，封装成一个对象，会减少调用时候的一些不必要的麻烦，大概
++ js里所有的事物都是对象：字符串、数值、数组、函数，日期，正则表达式.....
++ 对象是一个特殊的数据，它拥有属性和方法，是特殊的数据类型。
+ 
+ 访问对象属性的语法： `objectName.propertyName`
+
+```js
+   // 使用了 String 对象的 length 属性来获得字符串的长度;
+var message = "hello World!";
+var x = message.length; 
+```
+
+
+访问对象的方法的语法： `objectName.methodName()`
+
+```js 
+  // 使用string上的toUpcase()方法来转换文本大小写。
+var message = "Hello World!";
+var x = message.toUpperCase()
+```
+
+#### 创建对象
+
+js能够定义并创建自己的对象
+
+创建对象方法有两种：
+1. 定义并创建实例
+
+```js
+ 创建一个新的实例并向其添加2个属性。
+person new Object();
+person.Firstname="john";
+person.lastname="Doe";
+```
+
+替代语法（使用对象 literals）：
+
+```js
+person={firstname:"John",lastname:"Doe",age:50,eyecolor:"blue"};
+
+```
+
+2. 使用对象构造器
+ 使用函数来构造对象：
+
+```js
+function person(firstname,lastname,age,eyecolor)
+{
+this.firstname=firstname;
+this.lastname=lastname;
+this.age=age;
+this.eyecolor=eyecolor;
+}
+//this指向正在执行的函数本身，或指向所属对象。
+```
+
+有了对象构造器可以创建新的实例
+
+```js
+var myFather=new person("John","doe","50","blue")
+```
+
+把属性添加到js对象，可以通过对象赋值来添加新的属性。
+
+```js
+person.firstname="John";
+person.lastname="Doe";
+person.age=30;
+person.eyecolor="blue";
+
+x=person.firstname;
+```
+
+#### 把方法添加到对象
+
+方法就是附加在对象上面的函数
+构造函数内部定义对象的方法：
+
+```js
+function person(firstname,lastname,age,eyecolor)
+{
+  this.firstname=firstname;
+  this.lastname=lastname;
+  this.age=age;
+  this.eyecolor=eyecolor;
+
+  this.changeName=changeName;
+  function changeName(name)
+  {
+    this.lastname=name;
+  }
+} //changeName() 函数 name 的值赋给 person 的 lastname 属性
+```
+
+#### 类
+
+JavaScript 是面向对象的语言，但 JavaScript 不使用类。
+在 JavaScript 中，不会创建类，也不会通过类来创建对象（就像在其他面向对象的语言中那样）。
+JavaScript 基于 prototype，而不是基于类的。
+
+#### for in 循环
+
+for...in 循环中的代码块将针对每个属性执行一次。
+
+```js
+function myFunction(){
+  var x;
+  var txt="";
+  var person={fname:"Bill",lname:"Gates",age:56}; 
+  for (x in person){
+    txt=txt + person[x];
+  }
+  document.getElementById("demo").innerHTML=txt;
+}
+```
+
+#### number 对象
+js只有一种数字类型。
+所有的数字都是浮点型类型。
+可用小数点或不用小数点书写。
+极大或者极小可用科学计数法书写。
+整数最多15位。
+
+```js
+var pi = 123e5;   // 1230000
+var z = 123e-5;   // 0.00123
+```
+
+
+要得到一个类的实例时，往往是要运行其构造函数的
+
