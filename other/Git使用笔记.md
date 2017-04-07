@@ -174,5 +174,27 @@ git init                # 加载package.json 文件
 npm run dev             # 运行分支
 ```
 
+## wabg-api 项目中更新代码 并合并上游代码（合并时候注意）
+
+```shell 
+git status               # 将确认无误的代码打包
+git commit -m "更新"      # 描述更新内容。
+git push origin wj       # 将wj分支推送到远程仓库
+git pull origin master   # 将项目拉到本地
+git push origin wj       # 将代码推到远程仓库完成合并。
+```
+
+```shell
+git branch wj            # 创建wj分支
+git checkout wj          # 切换到王捷分
+git branch -av           # 查看所有分支
+git pull origin master   # 拉去上游代码
+git status 
+git add 
+git commmit -m ""
+git push origin wj   #
+#新建分支  拉取两条远程代码到本地
 
 
+git branch -d wj123         #删除分支
+```
