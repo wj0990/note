@@ -1503,3 +1503,37 @@ var z = 123e-5;   // 0.00123
 
 要得到一个类的实例时，往往是要运行其构造函数的
 
+
+
+
+
+
+
+
+
+
+#js额外学习小积累
+
+```js
+var str = '{"name":"huangxiaojian","age":"23"}'
+
+
+// 将字符串文件转化为json对象的方法
+JSON.parse(str)
+Object {name: "huangxiaojian", age: "23"}
+str.age
+undefined
+var str = '{"name":"huangxiaojian","age":"23"}'
+
+
+
+str = JSON.parse(str)
+Object {name: "huangxiaojian", age: "23"}
+str.age
+"23"
+
+
+
+
+
+```
