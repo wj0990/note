@@ -1372,11 +1372,12 @@ obj.sayName();  //kxy   sayName函数作为对象obj的方法调用，所以函�
  
 #### 对象
 
-+ 我对js面向对象编程的理解是，将需要调用或者修改的数据，封装成一个对象，会减少调用时候的一些不必要的麻烦，大概
++ 我对js面向对象编程的理解是，将需要调用或者修改的数据，封装成一个对象，会减少调用时候的一些不必要的麻烦.
 + js里所有的事物都是对象：字符串、数值、数组、函数，日期，正则表达式.....
 + 对象是一个特殊的数据，它拥有属性和方法，是特殊的数据类型。
++ js 允许自定义对象
  
- 访问对象属性的语法： `objectName.propertyName`
+ 访问对象属性的语法： `objectName.propertyName`   对象名加属性名。
 
 ```js
    // 使用了 String 对象的 length 属性来获得字符串的长度;
@@ -1418,13 +1419,15 @@ person={firstname:"John",lastname:"Doe",age:50,eyecolor:"blue"};
  使用函数来构造对象：
 
 ```js
-function person(firstname,lastname,age,eyecolor)
-{
-this.firstname=firstname;
-this.lastname=lastname;
-this.age=age;
-this.eyecolor=eyecolor;
+function person(firstname,lastname,age,eyecolor){
+    this.firstname=firstname;
+    this.lastname=lastname;
+    this.age=age;
+    this.eyecolor=eyecolor;
 }
+myFather=new person("John","Doe",50,"blue");
+myFather;   //执行函数myfather.
+//得出结果 person {firstname: "John", lastname: "Doe", age: 50, eyecolor: "blue"}
 //this指向正在执行的函数本身，或指向所属对象。
 ```
 
@@ -1450,23 +1453,37 @@ x=person.firstname;
 方法就是附加在对象上面的函数
 构造函数内部定义对象的方法：
 
-```js
-function person(firstname,lastname,age,eyecolor)
-{
+```
+function person(firstname,lastname,age,eyecolor){
   this.firstname=firstname;
   this.lastname=lastname;
   this.age=age;
   this.eyecolor=eyecolor;
-
   this.changeName=changeName;
-  function changeName(name)
-  {
+  function changeName(name){
     this.lastname=name;
   }
-} //changeName() 函数 name 的值赋给 person 的 lastname 属性
+}
+
+myMother=new person("wang","chunlian",53,"black");
+myMother.changeName("doe");
+myMother.lastname;
+"doe"
+myMother;
+//结果
+person {
+  firstname: "wang", lastname: "doe", age: 53, eyecolor: "black", changeName: function
+}
+// chengeName() 方法吧函数name赋值给person 的lastname属性。this 指向函数父级person。
 ```
 
+```
+```
+
+
+
 #### 类
+
 
 JavaScript 是面向对象的语言，但 JavaScript 不使用类。
 在 JavaScript 中，不会创建类，也不会通过类来创建对象（就像在其他面向对象的语言中那样）。
@@ -1477,15 +1494,26 @@ JavaScript 基于 prototype，而不是基于类的。
 for...in 循环中的代码块将针对每个属性执行一次。
 
 ```js
+
 function myFunction(){
   var x;
   var txt="";
-  var person={fname:"Bill",lname:"Gates",age:56}; 
+  var person={fname:"Bill",Lname:"Gates",age:"56"}
   for (x in person){
-    txt=txt + person[x];
+    txt=txt+person[x];
+
   }
-  document.getElementById("demo").innerHTML=txt;
+console.log(txt);   //结果为"BillGates56"
 }
+myFunction();
+
+
+
+
+
+
+VM2693:9 BillGates56
+
 ```
 
 #### number 对象
@@ -1500,9 +1528,217 @@ var pi = 123e5;   // 1230000
 var z = 123e-5;   // 0.00123
 ```
 
+```js
+myNumber=2;
+while (myNumber!=Infinity){
+  myNumber=myNumber*myNumber;
+  console.log(myNumber);
+}
+//结果   Infinity为无穷大。
+VM1639:4 4
+VM1639:4 16
+VM1639:4 256
+VM1639:4 65536
+VM1639:4 4294967296
+VM1639:4 18446744073709552000
+VM1639:4 3.402823669209385e+38
+VM1639:4 1.157920892373162e+77
+VM1639:4 1.3407807929942597e+154
+VM1639:4 Infinity
+undefined
+
+```
+
+#### NaN 非数字值
+
+使用 isNaN() 全局函数来判断一个值是否是 NaN 值
+
+```js
+
+`数字`除 `字符串`  与 `数字字符串`的得到不同结果。
+
+var x = 1000/"apple";
+var y = 1000/"1000";
+console.log(x ,y)
+// NaN 1
+//undefined
+```
+
+### 数字可以是数字或对象
+
+```
+数字可以私有数据进行初始化，就像 x = 123;
+数字对象初始化数据， var y = new Number(123);
+```
+
+
+
+
+#### 数字属性
+
+```
+MAX_VALUE
+MIN_VALUE
+NEGATIVE_INFINITY
+POSITIVE_INFINITY
+NaN
+prototype
+constructor
+```
+
+#### 数字方法
+
+```
+toExponential()
+toFixed()
+toPrecision()
+toString()
+valueOf()      
+```
+
+### 字符串（string）
+
++ String 对象用于处理已有的字符块。
++ 一个字符串用于存储一系列字符就像 "John Doe".
++ 使用位置（索引）可以访问字符串中任何的字符
++ 字符串的索引从零开始,字符串第一字符为 [0],
+
+使用字符串属性来计算长度
+
+```js
+var txt = "Hello World!";
+txt.length;
+//12  返回结果空格也算一位。
+```
+
+字符串使用 indexOf() 来定位字符串中某一个指定的字符首次出现的位置：
+astIndexOf() 方法在字符串末尾开始查找字符串出现的位置。 
+如果没有对应字符则返回 -1
+```js
+function myFunction(){
+  var str='Click the button to locate where "locate" first occurs';
+var n =str.indexOf("to");
+console.log(n)
+
+}
+myFunction()
+//结果 13
+```
+
+#### 内容匹配
+
+match()函数用来查找字符串中特定的字符，并且如果找到的话，则返回这个字符
+
+```js
+var str = "Hello World!";
+var c = str.match("World")
+c
+//返回["World", index: 6, input: "Hello World!"]
+```
+
+#### 内容替换
+
+replace() 方法在字符串中用某些字符替换另一些字符。
+
+```js
+function myFunction(){
+  var str = "microsoft sssss";
+  var txt = str.replace("microsoft","Runoob");
+  console.log(txt,str);
+
+}
+myFunction();
+// 结果 Runoob sssss microsoft sssss
+undefined
+```
+
+#### 转换大小写
+
+字符串大小写转换使用函数 toUpperCase() / toLowerCase():
+
+```js
+var txt ="Hello World!";
+var a = txt.toUpperCase();
+var b = txt.toLowerCase();
+var c = txt;
+
+a;      //"HELLO WORLD!"
+b;      //"hello world!"
+c;      //"Hello World!"
+```
+
+#### 将字符串转化为数组
+
+字符串使用split()函数转为数组:
+
+```js
+function myFunction(){
+  var str = "a, b, c, d, e, f";
+  var n=str.split(",");
+  console.log(n)
+}
+myFunction();
+// 打印结果 ["a", " b", " c", " d", " e", " f"]
+
+txt.split(",");   // 使用逗号分隔
+txt.split(" ");   // 使用空格分隔
+txt.split("|");   // 使用竖线分隔 
+
+```
+
+#### 特殊字符
+
+字符串的开始和停止使用单引号或双引号
+解决以下面的问题可以使用反斜线来转义引号：
+
+```js
+var txt="We are the so-called \"Vikings\" from the north.";
+txt
+
+// 返回"We are the so-called "Vikings" from the north."
+```
+
+|代码|输出|
+|------|-------|
+|\'|单引号|
+|\"|双引号|
+|\\|斜杆|
+|\n|换行|
+|\r|回车|
+|\t|tab|
+|\b|空格|
+|\f|换页|
+
+#### 字符属性和方法
+```js
+属性：
+length        //获取长度
+prototype     //原型   （不明白）
+constructor   //构造函数
+方法:
+charAt()
+charCodeAt()
+concat()
+fromCharCode()
+indexOf()       //查找  并返回位置
+lastIndexOf()   //从末尾查找
+match()         //查找字符串位置，如果有就返回字符串
+replace()       //替换字符串
+search()
+slice()
+split()         //将字符串转化为数组
+substr()
+substring()     
+toLowerCase()   //转换成小写
+toUpperCase()   //转换成大写
+valueOf()       //valueOf() 方法可返回 Boolean 对象的原始值
+```
+
 
 要得到一个类的实例时，往往是要运行其构造函数的
 
+
+### Date(日期)
 
 
 
@@ -1536,4 +1772,45 @@ str.age
 
 
 
+```
+
+## 将字符串转换为json.
+
+```js
+var a = {}
+
+a['id'] =1;
+a['user_profile'] = {}
+a['user_profile']['name'] = "sdfdsf"
+a['user_profile']['names'] = {}
+a['user_profile']['names']['dsf']="dsf"
+console.log("a=>",JSON.stringify(a,null,2))
+VM463:8 a=> {
+  "id": 1,
+  "user_profile": {
+    "name": "sdfdsf",
+    "names": {
+      "dsf": "dsf"
+    }
+  }
+}
+undefined
+var a = {}
+
+a['id'] =1;
+a['user_profile'] = {}
+a['user_profile']['name'] = "sdfdsf"
+a['user_profile']['names'] = {}
+a['user_profile']['names']['dsf']="dsf"
+console.log("a=>",JSON.stringify(a,null,4))
+VM464:8 a=> {
+    "id": 1,
+    "user_profile": {
+        "name": "sdfdsf",
+        "names": {
+            "dsf": "dsf"
+        }
+    }
+}
+undefine
 ```
