@@ -1740,13 +1740,81 @@ valueOf()       //valueOf() 方法可返回 Boolean 对象的原始值
 
 ### Date(日期)
 
+>使用Date()获取当前时间
 
+```js
+var d = new Date();
+d;
+Wed Apr 12 2017 00:12:16 GMT+0800 (CST)
+```
 
+> 使用getFullYear();获取今年的年份
 
+```js
+两种写法
+var d = new Date();
+    var u = d.getFullYear();
+u 
+//2017
 
+var d = new Date().getFullYear();
+d;
+//2017
+```
 
+> 如何使用 setFullYear() 设置具体的日期。
 
+```js
+var x = new Date().getTime();
+x;
 
+//1491930661139
+```
+
+> 如何使用 setFullYear() 设置具体的日期。
+
+```js
+var d = new Date();
+var a=d.setFullYear(2020,10,3);
+a;
+
+//1604337913836  结果有问题明天验证。
+```
+
+> 如何使用 toUTCString() 将当日的日期（根据 UTC）转换为字符串。
+getDay()
+
+```js
+function myFunction(){
+  var x =new Date().toUTCString();
+console.log(x)
+
+}
+myFunction();
+// Tue, 11 Apr 2017 17:36:45 GMT   
+`为毛线不能用上面的写法写??`
+undefined
+```
+
+>如何使用 getDay() 和数组来显示星期，而不仅仅是数字。
+
+```js
+function myFunction(){
+  var d = new Date();
+  var weekday=new Array(7);
+  weekday[0]="周0";
+  weekday[1]="周1";
+  weekday[2]="周2";
+  weekday[3]="周3";
+  weekday[4]="周4";
+  weekday[5]="周5";
+  weekday[6]="周6";  
+var b = weekday[d.getDay()];
+console.log(b)
+}
+myFunction();
+// 周3
+```
 
 #js额外学习小积累
 
