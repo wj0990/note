@@ -73,6 +73,9 @@ git remote add origin https://github.com/wangchuxi/test.git
 git remote remove origin # 删除名字为 origin 的远程仓库
 # 或者下面方式删除，上面为下面的简写方式
 git remote rm https://github.com/wangchuxi/test.git    #删除远程的仓库
+
+git push --set-upstream origin dev 第一次提交到自己的本地仓库
+
 ```
 
 ## 删除rm

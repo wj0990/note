@@ -1762,13 +1762,13 @@ d;
 //2017
 ```
 
-> 如何使用 setFullYear() 设置具体的日期。
+> getTime() 返回从 1970 年 1 月 1 日至今的毫秒数。
 
 ```js
 var x = new Date().getTime();
 x;
 
-//1491930661139
+//1491930661139   这个有错
 ```
 
 > 如何使用 setFullYear() 设置具体的日期。
@@ -1791,7 +1791,7 @@ console.log(x)
 
 }
 myFunction();
-// Tue, 11 Apr 2017 17:36:45 GMT   
+// Tue, 11 Apr 2017 17:36:45 GMT   这是字符串  
 `为毛线不能用上面的写法写??`
 undefined
 ```
@@ -1799,6 +1799,13 @@ undefined
 >如何使用 getDay() 和数组来显示星期，而不仅仅是数字。
 
 ```js
+var today = new Date();  
+
+b = today.getDay();
+b;
+// 返回星期几
+4
+
 function myFunction(){
   var d = new Date();
   var weekday=new Array(7);
@@ -1815,6 +1822,27 @@ console.log(b)
 myFunction();
 // 周3
 ```
+
+### 设置日期
+
+将日期设置在5天以后
+
+```js
+var today = new Date();
+
+y = today.getDate();
+
+//返回 13
+
+```
+
+```js
+var myDate=new Date();
+myDate.setDate(myDate.getDate()+5);
+myDate()
+// Tue Apr 18 2017 10:56:25 GMT+0800 (CST)
+```
+
 
 #js额外学习小积累
 
