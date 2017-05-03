@@ -571,6 +571,12 @@ Date().toString() = string(Date)        //返回"Thu Mar 23 2017 22:01:49 GMT+08
 |toPrecision()|把数字格式化为指定的长度|
 ```
 
+```js
+
+
+```
+
+
 ### Date方法 将日期转换为字符串的函数：
 
 ``` js
@@ -606,6 +612,20 @@ Date().toString() = string(Date)        //返回"Thu Mar 23 2017 22:01:49 GMT+08
 |parselnt()|解析一个字符串，并返回一个整数。|
 ```
 
+```js
+var date = "3.445543434";
+var b = parseFloat(date.toString());
+b
+//3.445543434   将字符串转化为一个数
+
+var date = "32.823232323";
+var b = parseInt(date.toString());
+b
+// 32 返回的值去除小数点后面的数。不四舍五入s
+```
+
+
+
 ### 正则表达式
 
 正则表达式由一个字符系列形成的搜索模式，它可以是个字符也可以是复杂的模式
@@ -630,6 +650,102 @@ m    //执行多个匹配
 |[abc]|查找[]之间任何数字|
 |[0-9]|查找任何0-9的数字|
 |(x/y)|查找以|分割对象|
+```
+
+search() 方法 用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串，并返回子串的起始位置。
+```js
+var str = 'Visit Runoob:';
+var n = str.search(/Runoob/i);
+//n
+6  搜索字符串的起始位置，并返回位置的数字
+```
+
+replace() 方法使用句正则表达式改变和替换
+
+```js
+  
+str = "Visit Runoob";
+var n =str.replace(/Runoob/i,"beijing");
+console.log(n);
+// VM5537:3 Visit beijing
+undefined
+```
+
+test（） 方法
+
+test() 方法用于检测一个字符串是否匹配某个模式，
+```js
+var patt = /e/;
+patt.test("The best strings in life are free");
+true
+/e/.test("The best things in feel!");
+true
+
+```
+
+exec() 方法检索字符串中正则表达式的匹配
+
+返回的是一个数组。存放匹配结果
+```js
+
+/e/.exec("the, the, the");
+// ["e", index: 2, input: "the, the, the"] 
+
+```
+
+一些特殊判断的实例：
+
+```js
+function isDecimal(strValue){
+  var objRegExp = /^\d+\.\d+$/;
+  return objRegExp.test(strValue);
+}
+isDecimal(23.23343);
+//true  判断数字里数否带小数点
+
+
+
+function ischina(str){
+  var reg=/^[u4E00-\u9FA5]{2,4}$/;
+  //定义表达式
+  return reg.test(str);  //进行验证
+}
+ischina("中国")
+//true 判断是否为中文
+
+
+function isStudentNo(str){
+    var reg =/^[0-9]{8}$/; //定义验证表达式
+    return reg.test(str);  //进行验证
+    isStudentNo('123456789')
+//false  验证是否是8位数组成。
+}
+
+
+function isTelCode(str) {
+  var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+  return reg.test(str);
+}
+ // 判断电话号是否合法
+
+/*校验邮件地址是否合法 */
+function IsEmail(str) {
+  var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+  return reg.test(str);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 #### 元字符
@@ -685,6 +801,8 @@ function myfunction(){
   var txt = str.replace("Microsoft","runoob");
   docunemt.getElementById("demo").innerHTML = txt;
 }
+
+
 
 ```
 
@@ -1020,6 +1138,8 @@ function myFunction(a,b){
 }
 myFunction(2,5);
  //结果为10
+
+ 
 ```
 
 函数可以储存在变量里，之后变量可做函数调用，通常不为匿名函数，通过变量调用
@@ -1218,7 +1338,22 @@ myObject = myFunction.apply(myObject, myArray);  // 返回 20
 ```
 
 #### 闭包
- 
+   闭包是一个概念，它描述了函数执行完毕内存释放后，依然内存驻留的一个现象     
+
+```js
+function a(){
+  var i =0;
+  function b(){
+    alert(i++);
+  }
+  return b;
+
+}
+
+var c =a();
+c(); // 1
+
+```
 ##### 变量 
 
 js变量可以是全局变量或局部变量。
@@ -1910,3 +2045,493 @@ VM464:8 a=> {
 }
 undefine
 ```
+
+### 字符串（string） 对象
+
+string对象用来储存字符类似 “John Doe”
+
++ 字符串用`''`或`“”` 
+
+```
+var carname = "Volvo XC60";
+var carname = 'Volvo XC60';
+```
+
++ 使用位置（索引）可访问字符串中任何字符。
+
+```
+var character=carname[7];
+```
+
++ 字符串从0开始为第一个数字，可以在字字符串中使用引号
+
+```js
+var answer='It\'s alright';              //It's alright
+var answer="He is called \"Johnny\"";    //He is called "Johnny"
+```
+
+### 字符串（string）
+
++ 字符串（string）使用长度属性来计算字符长度：
+```js
+var txt = "Hello World!";
+n =txt.length;
+n;    // 12
+```
+
++ 使用indexOf()定位某个字符出现的位置。lastindexof()是倒序查找。没有就返回`-1`
+
+```js
+var str = "Hello wrold ,welcome to the unverse.";
+var n=str.indexOf("wrold");
+n;   //7
+```
+
+#### 内容匹配
+
+match()函数用来查找字符串中特定的字符，并且如果找到的话，则返回这个字符。
+```js
+var str = "Hello Wrold!"
+var n = str.match("Wrold")
+n; //["Wrold", index: 6, input: "Hello Wrold!"]
+```
+
+#### 替换内容
+
+replace()字符串中某个字符替换另一个字符
+
+```js
+str = "please visit Microsoft!"
+var n =str.replace("Microsoft","w3cschool");
+
+n;    //"please visit w3cschool!"
+```
+
+#### 字符串大小写转换
+
+字符串大小转换使用 `toUpperCase()`/ `toLowerCase()`
+```js
+ var txt = "Hello World!"
+ var txt1 = txt.toUpperCase();
+ var txt2 = txt.toLowerCase();
+ txt1;   //"HELLO WORLD!"
+ txt2;   //"hello world!"
+
+
+```
+
+#### 字符串转化为数组
+
+使用split()函数转换
+```js
+txt = "a,b,c,d";   //字符串
+txt = split(",")   //逗号隔开  txt = [a,b,c,d]
+txt = (" ")        //空格隔开
+txt - ("|")        //使用 |  隔开
+```
+
+
+### 数组
+
++ 数组对像使用单独的变量名来储存一系列数字。
++ 数组可以用一个变量名存储所有的值，并且可以用变量名访问任何一个值。
++ 数组中的每个元素都有自己的的ID，以便它可以很容易地被访问到
+
+数组的三种定义方法：
+
+```js
+var myCars =new Array();
+myCars[0] = "saab";
+myCars[1] = "volvo";
+myCars[2] = "BMW";
+
+myCars
+//["saab", "volvo", "BMW"]
+var myCars = new Array("saab", "volvo","BMw");
+myCars
+//["saab", "volvo", "BMw"]
+
+var myCars = ["saab","Volvo","BWM"];
+myCars;
+//["saab", "Volvo", "BWM"]
+
+```
+
+访问和修改数组：
+
+```js
+//访问myCars[0]数字第一个值
+var name = myCars[0];
+//修改 重新赋值
+myCar[0]="opel";
+
+```
+
+数组中可以有不同的变量类型：
+你可以在一个数组中包含对象元素、函数、数组
+
+```js
+myArray[0]=Date.now;
+myArray[1]=myFunction;
+myArray[2]=myCars;
+
+```
+
+使用数组对象的预定义属性和方法：
+
+```js
+var x = myCars.length    //myCars中元素数量
+var y = myCars.indexof("volvo")  //"volvo值的索引"
+
+```
+
+使用全局构造函数，构造新的js对象的属性和方法。
+
+```js
+Array.prototype.myUcase = function(){
+  for (i=0;i<this.length;i++){
+    this[i]=this[i].toUpperCase();
+  }
+}
+function myFunction(){
+  
+  var fruits =["Banana","Orange","Apple","Mango"];
+  fruits.myUcase();
+ }  
+   //如何调用还是有问题。。.....
+```
+
+#### 更多实例方法
+
+合并两个或三个素组
+
+```js
+var parents = ["Jani", "Tove"];
+var brothers = ["Stale", "Kai Jim", "Borge"];
+var children = ["Cecilie", "Lone"];
+var family = parents.concat(brothers, children);
+family;
+// ["Jani", "Tove", "Stale", "Kai Jim", "Borge", "Cecilie", "Lone"]
+```
+
+使用join()方法将数组元素组成字符串。
+
+```js
+var fruits = ["Banana","Orange","Mango"];
+var a = fruits.join();
+a
+// "Banana,Orange,Mango"
+```
+
+使用pop（）方法删除数组最后一个元素。
+
+```js
+var fruits = ["banana","Orange","Apple","Mango"];
+var x = fruits.pop();
+fruits
+//["banana", "Orange", "Apple"]
+
+```
+
+使用push（）给数组末尾添加新元素。
+
+```js
+ var fruits = ["banana","Orange","Apple","Mango"];
+var x = fruits.push("tea");
+fruits
+// ["banana", "Orange", "Apple", "Mango", "tea"]
+```
+
+使用reverse()方法将数字内元素颠倒顺序。
+
+```js
+var fruits = ["Banana","Apple","Orange","mango"];
+var x = fruits.reverse();
+fruits;
+
+// ["mango", "Orange", "Apple", "Bana
+```
+
+使用shift()方法删除数组第一个元素。
+
+```js
+var fruits = ["Banana","Orange","Apple","Mango"];
+var x = fruits.shift();
+fruits;
+["Orange", "Apple", "Mango"]
+```
+
+使用slice 丛数组里选择元素
+```js
+var fruits = ["Banana","Orange","Apple","Mango"];
+var x = fruits.shift(1，3);  //从第2个个元素开始 第四个元素之前结束。
+x;
+//["Orange","Apple"]
+```
+
+使用sort()将数组排分别依照`字母升序排列`，数字升序或降序排列。
+
+```js
+var fruits = ["Banana","Orange","Apple","Mango"];
+var x = fruits.sort();
+fruits;
+// ["Apple", "Banana", "Mango", "Orange"]
+var points = [1, 3 ,22, 11, 5];
+var b = points.sort(function(a,b){ return b-a});// 顺序就将b-a，改为a-b.
+
+points;
+// [22, 11, 5, 3, 1]
+
+```
+
+在数组第二个位置添加一个元素
+
+```js
+var friuts = ["Banana", "Orange", "Apple","Mango"];
+  friuts.splice(2,0,"Lemon","Kiwi");  //前面一个2是在第二个数之后插入，后面的0是替换0个
+  friuts
+// ["Banana", "Orange", "Lemon", "Kiwi", "Apple", "Mango"]
+
+
+var friuts = ["Banana", "Orange", "Apple","Mango"];
+  friuts.splice(2,2,"Lemon","Kiwi");  //前面一个2是在第二个数之后插入，后面的0是替换0个
+  friuts
+// ["Banana", "Orange", "Lemon", "Kiwi"]
+
+
+
+
+```
+
+使用toString()将数组转化为字符串
+
+```js
+var fruits = ["Banana","Apple", "Orange", "Mange"];
+var x =fruits.toString();
+x
+// "Banana,Apple,Orange,Mange"
+```
+
+在数组开头添加新的元素 unshift();
+不能用于 Internet Explorer 8 之前的版本
+
+```js
+var fruits = ["Banana","Apple", "Orange", "Mange"];
+var x =fruits.unshift("lpineeapple");
+fruits
+// ["lpineeapple", "Banana", "Apple", "Orange", "Mange"]
+```
+
+#### js 布尔对象
+
++ Boolean 对象代表两个值:"true" 或者 "false"
+
+定义一个名为 myBoolean的对象。
+
+```js
+var myBoolean = new Boolean;
+```
+
+布尔值无初始对象或为下面的值时，对象值为false 否则为true。
+```js
+0 , -0 , null , "" ,false, undefined, NaN 
+```
+
+#### math(算数) 对象
+
++ Math（算数）对象作用是执行常见的算数任务
++ Math 对象提供多种算数值类型和函数。无需在使用这个对象之前对它进行定义。
+
+
+使用round()方法将带有小数的数字转换为接近的整数(四舍五入)
+
+```js
+var y = 2.5;
+x = Math.round(y)
+x
+//3
+```
+
+使用random()方法返回0到1之间的随机数。
+
+```js
+var num = Math.round();
+num
+// 0.3648955511654066;
+
+var num = Math.round(Math.random()*100000);
+num
+// 84114  做随机验证码很实用。
+```
+
+使用Max() 或Min()返回两个给定值中较大的一个。 
++ 在ECMASCript3之前，只有两个参数。
+
+```js
+var num = Math.max (1,100);
+num
+// 100
+var num = Math.min (1,100);
+num
+// 1
+```
+
+使用Math对象属性和方法：
+
+```js
+var x=Math.PI;    //圆周率3.1415926......
+var y=Math.sqrt(16);   //开方  结果为4
+```
+
+使用floor()方法和random()方法返回介于0和11之间的数
++ floor()方法去除小数点后面的数
+
+```js
+var num = Math.floor(Math.random()*11);
+num;
+//1
+
+
+var num = Math.floor(Math.random()*100000);
+num;
+// 60221
+```
+
+
+##### 算数值
+```js
+Math.E        //自然对数
+Math.PI       // 圆周率
+Math.SORT2
+Math.SORT1_2
+Math.LN2
+Math.LN10
+Math.LOG2E
+Math.LOG10E
+```
+
+### RegExp 对象
+
++ RegExp：是正则表达式（regular expression）的简写。
++ 正则表达式描述了字符的模式对象。
++ 当您检索某个文本时，可以使用一种模式来描述要检索的内容。RegExp 就是这种模式。
++ 简单的模式可以是一个单独的字符。
++ 更复杂的模式包括了更多的字符，并可用于解析、格式检查、替换等等。
++ 您可以规定字符串中的检索位置，以及要检索的字符类型，等等。
+
+语法：
+
+```js
+var patt=new RegExp (pattern,modifiers);
+或者
+var patt=/pattern/modifiers;
+```
+
++ 模式描述了一个表达式模型。
++ 修饰符(modifiers)描述了检索是否是全局，区分大小写等。
++ 注意：当使用构造函数创造正则对象时，需要常规的字符转义规则（在前面加反斜杠 \）。比如，以下是等价的：
+
+```js
+var re = new RegExp("\\w+");
+var re = /|w+/;
+
+```
+
+RegExp 修饰符:
+
+i - 修饰符是用来执行不区分大小写的匹配。
+g - 修饰符是用于执行全文的搜索（而不是在找到第一个就停止查找,而是找到所有的匹配）。
+
+在字符串中不区分大小写“runoob”
+
+```js
+i - 修饰符是用来执行不区分大小写的匹配。
+g - 修饰符是用于执行全文的搜索（而不是在找到第一个就停止查找,而是找到所有的匹配）。
+```
+
+```js
+
+var str = "visit RUnoob";
+var patt1=/runoob/i;
+str.match(patt1);
+// ["RUnoob", index: 6, input: "visit RUnoob"]
+```
+
+```js
+var str = "Is this all there is?";
+var patt1 = /is/g;
+str.match(patt1)
+// ["is", "is"]
+```
+
+test()搜索字符串 的位置，根据结果返回真假。
+
+```js
+var pattl = new RegExp("e");
+var banbool = pattl.test("The best is not defined");
+banbool;
+// true
+```
+
+当使用构造函数创造正则对象时，需要常规的字符转义规则（在前面加反斜杠 \）
+
+```js
+var str = 'runoob';
+var patt1 =new RegExp('\\w','g');  //有转义作为正则表达式处理
+var patt2 = new RegExp('\w','g');  // 无转义作为正则表达式处理
+var patt3 = /\w+/g;                // 与patt1相同
+patt1.test(str);
+
+//true
+patt2.test(str)
+//false
+patt3.test(str);
+//true \）
+```
+
+
+### this 指向问题
+
+this：是函数内部的一个属性，当函数被调用时，this 产生一个内部函数，只能在函数内部起作用。
+this：指向总是函数的调用者，当没有被调用时this指向window
+
+```js
+console.log(this)  //window
+var fun = function(){
+  console.log(this);
+
+}
+fun();  //打印window
+// 等价于下面调用方式
+this.fun();
+window.fun();
+// 匿名函数，可以理解成window创建了个变量来保存这个函数，
+(function(){
+    console.log(this);
+})();  //打印window
+```
+
+这里window调用函数，函数内this指向window 对象也一样
+
+```js
+// 函数作为方法被调用时 this 指向调用的这个对象
+var fun = function(){
+        console.log(this);
+};
+var o ={
+  fn:fun
+}
+o.fn()  // 打印对象o
+// 如下的方式也没有问题
+var a = {
+        name : "xiao2",
+        sayName: function(){
+              alert(this.name);
+        }
+};
+a.sayName(); //弹出xiao2
+
+
+
+```
+

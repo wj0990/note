@@ -61,6 +61,7 @@ COMMENT='用户表信息';
 + `NULL`：数据列可包含NULL值；
 + `NOT NULL`：数据列不允许包含NULL值；
 + `DEFAULT`：默认值；
++ AUTO_INCREMENT=1 自增键起始序号为1
 
 #### 数据类型
 

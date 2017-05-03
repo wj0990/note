@@ -33,7 +33,7 @@ git commit -m "first commit" # 6. 提交说明
 
 # 7. 添加远程仓库地址取名叫 origin，关联远程仓库，
 git remote add origin https://github.com/wangchuxi/test.git  
-git push -u origin master # 8. 提交代码到远程origin仓库 的 master 分支
+git push -u origin master # 8. 提交代码到远程origin仓库 的 master 分支 在远程仓库里没有master分支时，创建一个master分支。
 ```
 
 
@@ -74,7 +74,7 @@ git remote remove origin # 删除名字为 origin 的远程仓库
 # 或者下面方式删除，上面为下面的简写方式
 git remote rm https://github.com/wangchuxi/test.git    #删除远程的仓库
 
-git push --set-upstream origin dev 第一次提交到自己的本地仓库
+ 第一次提交到自己的本地仓库
 
 ```
 
@@ -175,6 +175,7 @@ git merge upstream/dev  # (合并项目)
 git pull upstream       # 拉回上游分支   
 git init                # 加载package.json 文件   
 npm run dev             # 运行分支
+git reset controllers/login.js  #将打包好的代码还原，方便代码进行比对
 ```
 
 ## wabg-api 项目中更新代码 并合并上游代码（合并时候注意）
