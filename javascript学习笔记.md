@@ -1267,7 +1267,10 @@ function sumAll() {
     return sum;
 }
 ```
+
+
 #### 通过值传递参数
+
 
 + 在函数中调用的参数是函数的隐式参数。
 + JavaScript 隐式参数通过值来传递：函数仅仅只是获取值。
@@ -1335,6 +1338,18 @@ function myFunction(a, b) {
 }
 myArray = [10, 2];
 myObject = myFunction.apply(myObject, myArray);  // 返回 20
+```
+
+```js
+function sortNumber(a,b){           //封装一个方法，定义参数排序方法，
+  return a-b;
+}
+
+var arr = new Array(-1, 3, 10, 6 ,5, 19, -19);
+
+arr.sort(sortNumber);
+//返回[-19, -1, 3, 5, 6, 10, 19]
+// 通过返回值（两个相邻值运算得到结果小于0,就位置互换）来判断两个数的位置
 ```
 
 #### 闭包
@@ -1820,6 +1835,9 @@ txt.split(" ");   // 使用空格分隔
 txt.split("|");   // 使用竖线分隔 
 
 ```
+
+```
+
 
 #### 特殊字符
 
