@@ -74,7 +74,7 @@ git remote remove origin # 删除名字为 origin 的远程仓库
 # 或者下面方式删除，上面为下面的简写方式
 git remote rm https://github.com/wangchuxi/test.git    #删除远程的仓库
 
- 第一次提交到自己的本地仓库
+  第一次提交到自己的本地仓库
 
 ```
 
@@ -90,7 +90,8 @@ mv t1 t2 t3 -t home   #将 t1 t2 t3 (-t)移动到home里面
 
 
 rm -rf test   删除关于test 
-git rm -r --cached .  撤销上次add      
+git rm -r --cached .  撤销上次add
+git reset HEAD .  撤销上次add      
 ```
 
 ## 查看
@@ -161,7 +162,10 @@ sudo        # 给管理员权限。
     git checkout api-doc/登录.md   git diff api-doc/登录.md
 7.  git merge upsteam/dev-s       #将分支合并。
 8.  git fetch upstream
+
 9.  git remote
+
+git pull origin wcx:wcx #拉取远程分枝到本地并创建分枝。
 ```
 
 
@@ -175,7 +179,6 @@ git merge upstream/dev  # (合并项目)
 git pull upstream       # 拉回上游分支   
 git init                # 加载package.json 文件   
 npm run dev             # 运行分支
-git reset controllers/login.js  #将打包好的代码还原，方便代码进行比对
 ```
 
 ## wabg-api 项目中更新代码 并合并上游代码（合并时候注意）
@@ -202,3 +205,47 @@ git push origin wj   #
 
 git branch -d wj123         #删除分支
 ```
+
+## git 操作代码回滚
+
+``` shell
+git reflog                # 查看你的历史变更记录
+git reset --hard HEAD@{n} #(n是你要回退到的引用位置）回退你要指定的那次操作。
+```
+
+## git fetch 和 git pull的区别：
+
+> 1.Git fetch:只是从远程获取最新版本到本地,不会merge(合并)
+
+```shell
+1. $:git fetch origin master   #从远程的origin的master主分支上获取最新版本到origin/master分支上
+2. $:git log -p master..origin/master #比较本地的master分支和origin/master分支的区别
+3. $:git merge origin/master          #合并
+```
+
+> 2.Git fetch:从远程获取最新版本并merge(合并)到本地
+
+```shell
+$:git pull origin master  //相当于进行了 git fetch 和 git merge两部操作
+
+```
+
+> 合并导致报错:`error: You have not concluded your merge (MERGE_HEAD exists)` .的原因可能是在以前pull下来的代码自动合并失败
+
+>解决办法一:保留本地的更改,中止合并->重新合并->重新拉取
+
+```shell
+$:git merge --abort
+$:git reset --merge
+$:git pull
+```
+
+>解决办法二:舍弃本地代码,远端版本覆盖本地版本(慎重)
+
+```shell 
+$:git fetch --all
+$:git reset --hard origin/master
+$:git fetch
+```
+
+
