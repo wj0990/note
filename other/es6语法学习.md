@@ -6,6 +6,7 @@ es6使用笔记
 - [let和const命令](# let和const命令)
 - [数组扩展](# 数组扩展)
   -[Array.from()](## Array.from)
+- [函数扩展](# 函数扩展 )
 
 
 # let和const命令
@@ -662,11 +663,224 @@ p2
 // Error: fail
 // Promise，导致p2自己的状态无效了，由p1的状态决定p2的状态。所以，后面的then语句都变成针对后者（p1）。又过了2秒，p1变为rejected，导致触发catch方法指定的回调函数。
 
+
 ```
 
 Promise.prototype.then()
 
 then方法定义在promise.prototype方法上的，
+
+# 函数扩展
+
+1.函数添加默认值
+```js
+之前写法
+function log(x,y){
+  y = y || 'world' //y存在则值为y，不存在时y值为‘world'
+}
+
+ES6新写法：默认值写在函数后面。
+funciton log(x,y = 'world'){
+  console.log(x,y);
+}
+
+log('Hello', 'China') // Hello China
+log('Hello','') //Hello World
+//当y赋值为false时，则复制不起作用
+//就得加一条判断是否赋值
+if (typeof y === 'undefined'){
+  y = 'world'
+}
+//加上默认值优势在于后期如果优化不传数据时代码正常运行
+function Point(x=0, y =0){
+  this.x = x;
+  this.y = y;
+}
+var p = new point()
+p //{x:0,y:0}
+
+//变量设置默认值时不能 用let或const再次声明
+function foo(x = 5){
+  let x = 1; //error
+  const x = 2;  //error
+}
+
+//变量使用默认值时，函数不能用同名参数
+function foo(x, x =5){
+  //...
+}
+// SyntaxError: Duplicate parameter name not allowed in this context
+
+//参数默认值是变量的时候，参数传值的时候就会表达式结果的值
+let x = 99;
+function foo(p = x+1){
+  console.log(p);
+}
+foo()  //100
+x = 100;
+foo()  //101
+
+//结构赋值结合默认值使用
+function foo({x,y = 5}){
+  console.log(x,y);
+}
+foo({}) //undefined, 5  //解构赋值
+foo({x:1}) //1,5
+foo() // 报错／ undefined
+
+实例赋默认值例子 
+function fetch(url,{body ="",method = "get", header ={}}){
+  console.log(method);
+}
+fetch('http://example.com',{})
+//'GET'
+fetch('http://example.com')
+//报错
+
+//设置双
+function fetch(url,{method = 'GET' }={}){
+  console.log(method);
+}
+fetch('http://example.com')
+// 'GET'
+// 写法一
+   //函数默认值是一个空对象，设置了对象解构赋值的默认值
+function m1({x = 0, y =0}={}){
+  return [x,y];
+}
+  //没有设置默认值，参数默认值时个具体对象的时候，相当于没有设置结构函数的默认值
+// 写法二
+function m2({x,y} ={x:0, y:0}){
+  return [x,y];
+}
+
+// 函数没有参数的情况
+m1() // [0, 0]
+m2() // [0, 0]
+
+// x和y都有值的情况
+m1({x: 3, y: 8}) // [3, 8]
+m2({x: 3, y: 8}) // [3, 8]
+
+// x有值，y无值的情况
+m1({x: 3}) // [3, 0]
+m2({x: 3}) // [3, undefined]
+
+// x和y都无值的情况
+m1({}) // [0, 0];
+m2({}) // [undefined, undefined]   //当对象结构的时候没有设置时，函数值为空
+
+m1({z: 3}) // [0, 0]
+m2({z: 3}) // [undefined, undefined]
+
+//函数默认值参数，应该是尾参数(就是最后面一个参数)如果不是尾部参数则无法省略
+function(x = 1, y = 5 ,z){
+  return [x ,y, z];
+}
+f() // [1, 5, undefined]
+f(1) // [1, 5, undefined]
+f(1, , 2) // 报错   第二个值设置初始状态时第三个才能省略
+f(1, undefined, 2) // [1, 5, 2] 不是尾数不能省略只有输入undefined
+foo(1, null, 2)  //[1, null, 2] 传null就不行
+
+函数默认length属性 
+//有默认值的参数不会计入lenth属性
+(function (a){}).length         //1 
+(function (a =5){}.length)      //0
+(function (a,b,c=5){}).length   //2
+
+//默认值不是尾参，length不会记入后面的参数
+（function(a = 0,b,c){}).length //0
+ (function (a, b= 1,c){}).length //1
+
+ //rest参数是传入进来躲雨的参数
+(function(...args){}).length //0
+```
+
+# 作用域
+
+```js
+函数参数设置默认值，函数声明初始化时，参数形成单独作用域（context）初始化结束作用消失，不设置初始值时不会出现
+var x =1;
+function f(x,y=x){
+  console.log(y);
+}  f(2) //2
+//调用函数，行参形成作用域，默认值指向第一个参数
+
+函数调用时 y =x 形成作用域，作用域里，变量没有定义，所以指向外层变量，调用时内层不起作用，外部不存在就报错。
+let x =1;
+function f(y=x){
+  let x = 2;
+  console.log(y);
+}
+
+x=x作用域小，实际执行let x = x; 形成暂时性死区 
+f() //1
+var x =1;
+function foo(x=x){
+  //...
+}
+foo() //报错
+
+默认值为函数时，也遵行以上规则
+let foo ='oither';
+function bar(fun = x => foo){ //bar 参数是匿名函数，返回变量foo,foo没定义所以指向外层变量foo
+  let foo = 'inner';
+  console.log(func());
+}
+bar(); //other
+外层没有声明变量
+function bar(func = () => foo) {
+  let foo = 'inner';
+  console.log(func());
+}
+
+bar() // ReferenceError: foo is not defined
+由于x定义,形成作用域并指向外部变量，
+申明过的y变量的匿名函数里的x未申明，指向同一内部
+var x = 1;
+function foo(x,y =function(){x=2}){
+  var x =3;  //不在同一作用域
+  y(); //内部调用y()作用域指向函数内部  x= 3
+  console.log(x);
+}
+foo() //3
+x //1  
+
+var x = 1;
+function foo(x,y =function(){x=2}){
+  x =3;   不是很明白
+  y(); //内部调用y()作用域指向函数内部  x= 3
+  console.log(x);
+}
+foo() //2
+x //1  
+
+```
+
+#应用
+利用参数默认值，设置不可省略参数，如省略就抛错，
+```js
+function throwIfMissing(){
+  throw new Error('Missing Parameter');
+}
+function foo(mustBeprovied = throwIfMissing()){
+  //throwIfMissing() 后面加括号表示默认值在执行时执行
+
+  return mustBeProvided
+}
+foo()
+// Error: Missing parameter
+
+将参数默认值设为undefined，表明这个参数是可以省略的。
+function foo(opitionl =undefined){...}
+
+
+```
+
+
+
+
 
 
 # 对象扩展
@@ -900,8 +1114,6 @@ Object.defineProperty(Object, 'is', {
   enumerable: false,
   writable: true
 });
-
-
 ```
  
 # 5. Object.assign
@@ -1339,6 +1551,7 @@ let ab = {...a,...b}
 等同于
 let ab =Object.assign({},a,b)
 
+//name之外的被previdousVersion 的
 用户自定义属性会被新对象拷贝进来后会覆盖。
 et aWithOverrides = { ...a, x: 1, y: 2 };
 // 等同于
@@ -1348,5 +1561,203 @@ let x = 1, y = 2, aWithOverrides = { ...a, x, y };
 // 等同于
 let aWithOverrides = Object.assign({}, a, { x: 1, y: 2 });
 
+//使用方法来修改对象部分属性就很方便
+let newVersion ={ 
+  ...previdousVersion,
+  name:'New Name'
+}对象覆盖
 
 ```
+扩展符在前的属性是设置新对象属性默认值。
+```js
+let aWithDefaults = {x:1,y:2, ...a}; //等同于
+let aWithDefaults = Object.assign({},{x:1,y:2},a);  //等同于
+let SWithDefaults = Object.assign({x:1,y:2},a);  
+```
+
+扩展运算符的参数对象之中，如果有取值函数get，这个函数是会执行的。
+```js
+// x属性只是被定义，没执行所以不会抛错
+let aWtihXGetter = {
+  ...a,
+  get x(){
+    throws new Error('not thrown yet');
+  }
+}
+//x属性被执行，错误会抛出
+let tuntimeError = {
+  ...a,
+  ...{
+    get x(){
+      throws new Error('throw now');
+    }
+  }
+}
+
+//扩展运算符运算参数为null或undefined时值会被忽略。
+let emptyObject = {...null,...undefined };// 不报错
+```
+
+11.Object.getOwnPropertyDescriptors()
+```js
+//11.ES里对象描述。 Object.getOwnPropertyDescriptor方法，返回某个对象的描述（descriptor）
+var Obj ={p:'a'};
+Object.getOwnpropertyDesscriptor(obj,'p')
+// Object { value: "a",
+//   writable: true,
+//   enumerable: true,
+//   configurable: true
+// }
+
+//es2017里Object.getOwnpropertyDescriptor方法，返指定对象所有非继承属性的描述对象
+
+const obj ={
+  foo:123,
+  get bar(){return 'abc'}
+};
+Object.getOwnpropertyDescriptors(Obj)
+// { foo:
+//    { value: 123,
+//      writable: true,
+//      enumerable: true,
+//      configurable: true },
+//   bar:
+//    { get: [Function: bar],
+//      set: undefined,
+//      enumerable: true,
+//      configurable: true } }
+//
+// 返回的属性名是该属性名，属性值就是该属性的描述对象
+//实现例子
+function getOwnpropertyDecsriptors(Obj){
+  const result = {};
+  for (let key of Reflect.ownKeys(obj)){
+    result[key] =object.getOwnPropertyDescriptor(obj, key)
+  }
+   return result;
+}
+上面方法解决Object.assign()无法正确拷贝get set属性问题
+
+const source ={
+  set foo(value){
+    console.log(value);
+  }
+};
+//Object.assign方法总是拷贝一个属性的值，而不会拷贝它背后的赋值方法或取值方法。
+//所以得到结果为undrfined
+const target1 ={};
+Object.assign(target1, source);
+Object.getOwnPropertyDescriptor(target1,'foo')
+// { value: undefined,
+//   writable: true,
+//   enumerable: true,
+//   configurable: true }
+
+//Object.assign方法总是拷贝一个属性的值，而不会拷贝它背后的赋值方法或取值方法。
+const = tatget2 ={};
+Object.defineProperties(target2,Object.getOwnPropertyDescripto(source))
+Object.getOwnPeopertyDescriptor(target2,'foo')
+// { get: undefined,
+//   set: [Function: foo],
+//   enumerable: true,
+//   configurable: true }
+
+//代码何并提炼逻辑出来的
+const shallowMerge =(target,source) => Object.defineProperties(
+  target,
+  Object.getOwnPropertyDescriptors(source)
+  );
+
+Object.getOwnPropertyDescriptors方法另外用处。配合Object.create将对象属性克隆到新对象熟浅拷贝。
+
+const clone = Object.create(Object.getPrototypeOf(Obj),
+Object.getOwnPropertyDescriptors(obj));
+//或者
+const shallowClone =(obj) =>Object.create(
+  Object.getPrototypeOf(obj),
+  Object.getOwnPropertyDescriptors(obj)
+  );
+//获取对象的属性和对象属性的描述==》从而克隆了整个对象（不包括原属性）
+
+Object.getOwnpropertyDescriptors实现对象的继承
+
+const obj = {
+  _proto_:prot,
+  foo:123,
+};
+//规定__proto__只有浏览器要部署，其他环境不用部署。如果去除__proto__，上面代码就要改成下面这样。
+
+const obj = Object.create(prot);
+obj.foo = 123;
+//或者
+const obj = Object.assign(
+Object.craete(prot),
+{
+  foo:123
+}
+);
+
+//或者
+const obj = Object.assign(
+  object.create(prot),
+  {
+    foo:123,
+  }
+);
+
+Object.getOwnPropertyDescriptors,另一种写法
+const obj = Object.create(
+prot,
+Object.getOwnpropertyDescripttors({
+  foo:123,
+  })
+);
+
+Object.getOwnpropertyDescripts 实现 Mixin(混入)模式
+ t mix = (object) => ({
+  with: (...mixins) => mixins.reduce(
+    (c, mixin) => Object.create(
+      c, Object.getOwnPropertyDescriptors(mixin)
+    ), object)
+});
+
+// multiple mixins example
+let a = {a: 'a'};
+let b = {b: 'b'};
+let c = {c: 'c'};
+let d = mix(c).with(a, b);
+
+d.c // "c"
+d.b // "b"
+d.a // "a"。
+
+
+```
+
+## 12 Null 传到运算符
+
+编程业务中要读取某个属性，首先判断他是否存在
+```js
+如读取：message.body.user.firstName  安全写法
+const firstName =(message&&message.body&&message.body.user.message.body.user.firstName) ||'default'
+NUll传导运算简单写法
+const firstName = message?.body?.user?.firstName || 'default';
+？.运算只要其中一个返回null或underfined，就返回这个结果并且不往下执行
+
+'null传到运算'四种对象属性用法
+- Obj？prop //读取对象属性
+- Obj?.[expr] //同上
+- func?.(...args) //函数或方法调用
+- new C?.(...args) //构造函数的调用
+
+传导运算符要写成Obj?.prop,  三元运算为Obj？prop:123
+// 如果 a 是 null 或 undefined, 返回 undefined
+// 否则返回 a.b.c().d
+a?.b.c().d
+```
+
+
+
+
+
+
