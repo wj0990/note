@@ -632,6 +632,16 @@ b
 可以用搜索模式来描述要查询内容，可用于所有文本搜索和替换操作。
    类似于路径。邮箱可用于正表达式来规定用户输入。
 
+匹配数字将一段数字分成几份。
+```js
+var code = "123456789232433423412";
+var reg =/.{5}/g;
+var province_city = code.match(reg);
+province_city
+
+(4) ["12345", "67892", "32433", "42341"]
+```
+
 #### 修饰符
 
 ```js
@@ -2552,4 +2562,79 @@ a.sayName(); //弹出xiao2
 
 
 ```
+
+# 回调函数 
+
+>回调函数通过`函数指针`调用的函数。如果你把`函数的指针`（地址）作为`参数`传递给另一个函数，当这个`指针`被用来调用其所指向的函数时，我们就说这是回调函数
+
+##回调函数与普通函数区别：
+
+`普通函数调用`：当调用程序触发，程序立即执行被调用程序，等被调用程序执行完成，再返回调用程序执行。
+
+`书写方法`：被调用函数名书写在函数内部直接调用
+
+`应用`：单线程引用
+
+`回调函数调用`
+：当调用程序发起对回调函数调用，（不等回调函数执行完毕）调用程序和被调用程序同步执行，当调用程序执行完毕，被调用的函数会反过来调用某个事先指定的函数，通知调用程序，函数调用结束，整个过程称之为回调（callback）。
+
+`书写方法`:作为参数传递给调用者，调用者不知道自己调用的是什么
+
+`应用`：多线程
+
+##回调函数作用：
+
+作用：将同步转换成异步
+回调缺点：回调函数的优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），流程会很混乱，而且每个任务只能指定一个回调函数。
+
+```js
+
+function f1(callback){
+  setTimeout(function(){
+callback();
+  console.log('回调函数--------》')
+  
+  }),10000
+}
+var f2 = function(){
+  console.log('-----11111----->')
+}
+f1(f2);
+//undefined
+// -----11111----->
+// 回调函数--------》
+
+
+函数作为参数传四
+
+function say(value){
+  console.log(value);
+};        
+// 回调函数需要一个参数value
+
+
+function execute(someFunction, value){
+  someFunction(value);
+}
+execute(say, 'hi js');  //'hi js'
+
+// 将say方法作为参数传递给execute
+// 回调函数在函数内部创建
+
+function execute(someFunction, value){
+  someFunction(value);
+  }
+  execute(function(value){
+    alert(value)}, 'hi js') //'hi js'
+}
+// 将匿名函数直接作为参数传递给execute，
+
+var CallBack = function(num){
+  console.log(num);
+}
+// 调用callback
+Foo(a,Callback)
+
+```
+
 
