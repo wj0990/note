@@ -539,6 +539,24 @@ SELECT * FROM mytable WHEREt Name like'%admin'; -- 因此，在使用LIKE时应�
 
 ```
 
+### 修改PL搜索/SQL 显示数据库时间为12小时，怎么改成24小时
+
+```js
+to_char(sysdate,'yyyy.mm.dd hh24:mi:ss');    //重点在与24
+
+get: function (key) {
+        return new Date(this.getDataValue(key)).toFormat('YYYY/MM/DD HH24:MI:SS')
+      }  //项目里应用到。
+```
+
+
+
+
+
+
+
+
+
 > 索引的注意事项
 
 + 索引不会包含有NULL值的列

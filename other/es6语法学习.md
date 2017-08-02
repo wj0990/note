@@ -25,9 +25,10 @@ b // 1
 ```
 
 计数器for循环i在循环体里，循环体外就不能访问
-for `循环体内`作用域为子级作用域，`循环体外部为部`
+for `循环体内`作用域为子级作用域，`循环体外部`
 
 ```js
+  //循环体外部不能访问里面的变量,访问会报错（循环体的作用域在代码块里面）
 for (let i = 0; i < 10; i++) {
   // ...
 }
@@ -35,6 +36,7 @@ for (let i = 0; i < 10; i++) {
 console.log(i);
 // ReferenceError: i is not defined
 
+//i是var声明的，在全局都有效，并且全局就一个变量，每一次循环i都会变，结果并且赋值到a内部并且指向同一个ℹ️，所以得到是10
 var a =[];
 for(var i = 0; i<10; i++){
   a[i] = function(){
@@ -42,6 +44,8 @@ for(var i = 0; i<10; i++){
   };
 }
 a[6](); //10
+
+//用let声明，结果是6，我的理解是，当前i只在本次循环起作用，每次循环都是个新变量，6 =i+得到结果。传进来的是6所以啊a[i]的与传进来的相同，而循环是变量i声明的，到的结果是上次循环的结果，所以循环体内的[i]是上次的结果是 5
 ```
 
 
@@ -62,7 +66,8 @@ if (true) {
 >let声明没有“变量提升” ，使用前必须声明。
 
 ```js
-// var 的情况
+// var ，值为的情况
+var声明时foo变量已经存在值为undefined,所以不会发生变量提升
 console.log(foo); // 输出undefined
 var foo = 2;
 
@@ -89,6 +94,7 @@ if (true) {
 
 if (true) {
   // TDZ开始
+在let申明变量之前，该变量不起作用
   tmp = 'abc'; // ReferenceError
   console.log(tmp); // ReferenceError
 
@@ -98,12 +104,119 @@ if (true) {
   tmp = 123;
   console.log(tmp); // 123
 }
+
+var x =x ;//不报错
+let x = x  //报错  后面一个x  之前的变量x ,这是 x 变量没有申明完成
+
+let不允许在相同作用域内，重复声明同一个变量。
+function () {
+  let a = 10;
+  var a = 1; 或者 let a = 1  //都会报错
+}
 ```
+
+# 块级作用域
+```js
+es6使用块级作用域:
+1:内层变量会覆盖外层变量
+
+//if外层获取外部变量，内部获取内部变量，但f()执行时变量会提升覆盖外层变量
+var tmp = new Date();
+
+function f() {
+  console.log(tmp);
+  if (false) {    //个人理解时代码不执行时...  类似注视代码  下面才为undefined
+    var tmp = 'hello world';
+  }
+}
+
+f(); // undefined
+
+2.计算循环变量泄漏为全局变量
+
+//i用来控制循环的，但循环结束它没有消失，泄漏成全局变量
+ //而let声明时有不同的内外部作用域，循环执行完成就消失,外部就不会获取到
+var s = 'hello';
+for (var i = 0; i < s.length; i++) {
+  console.log(s[i]);
+}
+console.log(i); // 5
+
+function f1(){
+  let n = 5;   //作用域与consle同1一作用域
+  f(true){
+    let n = 10; 
+  }
+  console.log(n) //5
+}
+
+块级作用域出现，函数立即执行的表达式（IIFE）就不需要了 
+//可以省略函数自己调用自己时的（），ES5
+(function(){
+  var tmp = ...;
+  ...
+}());
+ES6  //块级作用域写法
+{
+  let tmp = ...;
+  ...
+}
+
+块级作用域与函数声明
+//ES5规定函数不能在块级作用域下声明，但下面写法在浏览器不会报错，（浏览器兼容老版本和新版本）
+//{} 这里面就是代码块
+if(true){
+  function f(){}
+}
+
+try {
+  function f(){}
+}catch(e){
+  // ...
+}
+//ES6引入块级作用域，并允许在里面声明，但let申明的不能被外部引用
+//在ES5中
+function f(){console.log('I am outside')}(
+(function (){
+  if(false){
+    //重复申明一次函数f
+    function f(){console.log('I am inside');}
+  }
+  f();
+  })());  //函数立即执行
+//得出结果为'I am inside' 声明的内部函数F 会被提升到头部，实际运行代码
+
+function f(){console.log('I am outside');}
+(funciton(){
+  function f(){consle.log('I,am inside');}
+  if(false){
+  }
+  f();
+  }());
+
+  如果在ES6里理论上代码只能在当前作用域起作用，出来结果应该是"I am inside ",但是代码运行会报错，如果改变块作用域sheng
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # 数组解构赋值
 
-ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构
+ES6 允许按照一定模式，`从数组和对象中提取值`，对`变量进行赋值`，这被称为`解构`
 
 本质上，这种写法属于“模式匹配”，只要等号两边的模式相同，左边的变量就会被赋予对应的值。
 ```js
@@ -878,6 +991,311 @@ function foo(opitionl =undefined){...}
 
 ```
 
+## 2.rest 参数
+```js
+  rest参数(形式为‘...变量名’)，用于获取函数的多余参数，
+  rest搭配变量时一数组，变量将多余参数放数组中
+  function add(...value){
+    let sum = 0;
+    for (var val of values){
+      sum+=val
+    }
+    return sum
+  } 
+  add(2,5,3)  //10
+
+  
+  // arguments变量的写法
+  function sortNumbers(){
+    return Array.prototype.slice.call(arguments).sort();
+  }  //sort排序  call 调用对象替换替换
+  //rest参数的写法
+  const sortNumbers = (...numbers) => numbers.sort();
+ 
+ //rest 作为变量代表一个数组，所以数组特有方法都可用。
+ functionpush（array，...items）{
+  itens.forEach(function(item){
+    array.push(item);
+    consloe.log(item)
+    })
+ }
+ var a =[];
+ push(a,1,2,3)
+
+函数length属性，不包括rest参数
+ function f(a,...b,c){} // 错误，rest参数后面不能跟参数
+ (function(...a){}).length //0
+ (function(a,...b){}).length //1
+```
+ 
+ ## 3.h扩展运算符
+```js
+//扩展运算符（spread）是三个点（...）,类似rest逆运算
+将字符串转换成用逗号隔开的
+console.log(1,...[2,3,4].5) //1 2 3 4 5
+[...document.querySelectorAll('div')] //[<div>,<div>,<div>]
+
+用于函数调用
+array.push(...itmes)和add(...numbers)
+function push(array, ...items){
+  array.push(...items);
+}
+function add(x, y){
+  return x+y;
+}
+var number =[4,20];
+add(...number) //42
+
+//array
+function f(a,b,c){}
+  var args = [0,1;]
+  f(-1,...args,2,...[3]);
+
+
+  function f(v, w ,x,y,z){}
+var args =[0,1];
+f(-1, ...args, 2, ...[3]);
+
+```
+
+##替代数组的apply方法
+扩展字符可展开数组，就不需要用apply方法，将数组转换成函数参数
+```js
+function f(x, y ,z){    
+  //...
+}
+var args = [0,1,2]; f.apply(null, args);//es5
+或者
+var args = [0,1,2];  f(...args)   //es6
+
+被扩展符取代apply方法，应用Math.max方法，简化求出一个数组大元素的写法。
+Math.max.apply(null,[14, 3, 77]) //ES5写法
+Math.max(...[14,3,77])           // ES6的写法
+Math.max(14,3,77)                //等同于
+  //apply将数组转化为参数系列，   有了展开符就直接可用了
+
+push函数添加数组到另一数组尾部,push方法传不能时数组，则用apply转化
+//es5 写法
+var arr1 = [0,1,2],arr2 = [3,4,5]
+Array.prototype.push.apply(arr1,arr2); 返回//6
+//es6
+arr.push(...arr2);   返回//6
+
+new (Date.bind.apply(Date, [null,2015,1,1])) //ES5
+new Date(...[2015,1,1]);
+
+```
+
+扩展运算符应用
+(1)合并数组
+扩展符何必数组新写法
+```js
+(1).合并数组
+[1,2].concat(more) //es5
+[1,2, ...more]  //es6
+
+var arr1 = ['a','b'];
+var arr2 = ['c'];
+var arr3 = ['d','e']
+
+arr1.contcat(arr1,arr2);  //es5
+//['a','b','c','d','e']
+[...arr1,...arr2,...arr3] //es5
+//['a','b','c','d','e']
+
+
+```
+
+(2)于结构赋值结合
+扩展字符，结构子符结合，生成数组
+```js
+a =list[0],rest = list.slice(1)  //ES5
+[a, ...rest] = list   //ES6
+
+const [first, ...rest] =[1,2,3,4,5];
+first //1
+rest  // [2,3,4,5]
+
+const [first, ...rest] =[];
+first //undefined
+rest  //[]
+
+const [first, ...rest] =['foo'];
+first //'foo'
+rest  //[]
+
+// 如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。
+
+const [...butlast,last] = [1,2,3,4,5];       // 报错
+const [first, ...middle, last] =[1,2,3,4,5]; //报错
+
+```
+
+(4) 字符串
+扩展符还可以将字符串转化为真正数组
+```js
+[...'Hello']
+//['H','e','l','l',o]
+
+//这种写法正确识别32位的Unicode字符
+
+function length(str) {
+  return [...str].length;
+}
+
+length('x\uD83D\uDE80y') // 3
+
+
+```
+
+# 4.严格模式
+```js
+functiondoSomething(a,b){     //es5
+  'use strict';  
+  //code
+}
+
+//es6 一下几种不能用严格模式 否则会报错
+  //es6 设默认值
+function doSomething(a,b = a){    
+  'use strict';
+}
+  //结构赋值
+const doSomething = function({a,b}){
+  'use strict';
+}
+    //扩展运算
+const doSomething = (...a) =>{
+  'use strict';
+}
+//这样规定原因在于，严格模式同时适用函数体和参数。但函数先执行参数，然后再执行函数体
+//如此问题在于只有在函数体内才能执行严格模式。
+```
+
+
+## 中见后期再
+
+# 5 .name 属性 ，返回函数名
+函数name属性，返回函数名
+```js
+function foo(){}
+foo.name // 'foo'
+```
+
+匿名函数赋给变量时.  `ES5`name属性返回空，ES6  返回实际变量名
+```js
+var f =function(){};
+// es5 f.name //''    ES6 f.name // 'f'
+```
+
+如果是具名函数则返回具体的函数名，
+```js 
+var f = function baz(){}
+// es5 || es6  返回 f.name //'baz'
+```
+
+function构造函数，返回的函数实例name属性值为anonymous(匿名)
+```js
+(new function).name //'anonymous'
+```
+
+bind返回的函数，name属性值会加上bound前缀
+```js
+function foo(){};
+foo.bind({}).name  //bound foo
+(function(){}).bind({}).name //'bound'
+```
+
+6.箭头函数（=>）定义函数
+```js
+var f = v =>v;
+等同于
+var f = function(v){
+  return v;
+};
+
+箭头函数传多个参或不传，使用（）代表参数部分。
+var f =() =>5; 等同于 var f = function(){return 5}
+var sum = (num1,num2) => num1 + num2;
+等同于
+var sum = function(num1, num2){return unm1 + num2;}
+
+如果代码块部分多一条语句，就得在对象外加{}
+var sum =(num1,num2) =>{return num1 +num2;}
+
+大括号被解释成代码块，如果箭头函数返回的是一个对象，必须在对象外加（）
+var getempItem = id => ({id;id,name:'Temp'});
+等同于
+ function getempItem(id){
+   return ({id:id,name:'Temp'})
+ }
+
+箭头函数与变量解构结合使用
+const full =({first,last}) =>first + '' +last;
+//等同
+function full(person){
+  return person.first + '' +person.last;
+}
+
+箭头函数使得表达式更简洁
+const isEven = n =>n%2 == 0;
+const square = n => n*n;
+
+箭头函数简化回调函数
+//正常写法
+[1,2,3].map(function(x){
+  return x*x;
+  });
+  //箭头函数的写法
+[1,2,3].map(x => x*x);
+
+箭头函数与rest结合的例子
+const numbers = (...nums) =>nums;
+numbers(1,2,3,4,5,) //[1,2,3,4,5]
+
+const headAndTalil =(head, ...tail)=>[head,tail];
+headAndTail(1,2,3,4,5) //[1,[2,3,4,5]]
+
+
+```
+
+# 使用箭头函数得注意
+```
++ this在函数体内，是定义时所在的对象，而不是使用时所在对象
++ 不能当作构造函数，也就不谁使用new命令，
++ argument对象在函数体内不存在的，使用时可选rest代替
++ 箭头函数不能用做Ceneratorhan函数，不能使用yield命令
+```
+
+```
+this对象的指向在箭头函数中是固定的
+function foo(){
+  setTimeout(()=:)
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -978,7 +1396,7 @@ var cart = {
   }
 }
 
-多线程调用代码（Generator），前面加*
+多线程调用代码（Generator），前面加
 var obj ={
   *m(){
     yield 'hello wrold';

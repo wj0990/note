@@ -91,7 +91,10 @@ mv t1 t2 t3 -t home   #将 t1 t2 t3 (-t)移动到home里面
 
 rm -rf test   删除关于test 
 git rm -r --cached .  撤销上次add
-git reset HEAD .  撤销上次add      
+git reset HEAD .  撤销上次add  
+git push --delete origin wj05    # 删除远程分支
+git branch -D wj05               # 删除本地分枝
+git push origin :wj              # 删除本地分枝
 ```
 
 ## 查看
@@ -248,4 +251,29 @@ $:git reset --hard origin/master
 $:git fetch
 ```
 
+>代码提交之后可以回滚到add 之前
+
+```
+git reset HEAD^  撤销上次commit
+```
+## git pull拉代码时弹出个选项，类似
+
+>Please enter a commit message to explain why this merge is necessary.
+提示代码都自动合并了 ，
+解决方法：shift + z + z     //退出并且保存了
+
+>解决方法二
+
+```shell
+
+1.按键盘字母 i 进入insert模式
+
+2.修改最上面那行黄色合并信息,可以不修改
+
+3.按键盘左上角"Esc"
+
+4.输入":wq",注意是冒号+wq,按回车键即可 
+ 
+
+```
 
