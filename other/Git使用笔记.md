@@ -83,9 +83,10 @@ git remote rm https://github.com/wangchuxi/test.git    #删除远程的仓库
 ``` shell
 rm     #删除本地文件
        # 删除时候遇到本地无法删除的时候报错：is a directory（你删除的是一个目录）应用一下命令 
-rm -d       #后面加上该目录名称，就可删除该目录
+rm -d       # 后面加上该目录名称，就可删除该目录
 rm r/R      # 删除子目录及文件。
-mv test.js ../    #将文件移到上级目录。 所有
+mv test.js ../  # 将文件移到上级目录。 所有
+mv * ~/.rncache  # 将当前文件里所有的文件移到顶层admin用户子文件夹rncahe里。
 mv t1 t2 t3 -t home   #将 t1 t2 t3 (-t)移动到home里面
 
 
