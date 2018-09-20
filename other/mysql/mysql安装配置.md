@@ -6,29 +6,45 @@
 (官网下载社区版dmg安装文件) [https://dev.mysql.com/downloads/mysql/]
 
 1、执行安装文件，按步骤完成安装。
+```shell
+$ rpm -qa | grep mysql  # 查看MySQL是否安装
+$ $ wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm  # g官方下载最新版本 8
+$ sudo yum localinstall mysql80-community-release-el7-1.noarch.rpm   # 添加mysql源 
+$ yum repolist enabled | grep "mysql.*-community.*" # 检查MySql启用的源
+$ $ sudo yum install mysql-community-server # 安装MySQL
 
+```
 2、安装完成后终端输入：
 
-```
-mysql --version;
+```shell
+$ mysql --version # 查看mysql版本
 ```
 
-----显示版本号说明正常，若显示command not found，在终端输入如下，”/usr/local/mysql/bin/mysql”为mysql默认安装路径：
+## 解决报错
+若显示command not found，在终端输入如下，”/usr/local/mysql/bin/mysql”为mysql默认安装路径：
 
-```
+```shell
 $ cd /usr/local/bin/
 $ sudo ln -fs /usr/local/mysql/bin/mysql mysql
+sudo /usr/local/mysql/support-files/mysql.server stop  # 关闭mysql服务：
 ```
 
-3、关闭mysql服务：
+### 启动Mysql
 
+```shell
+$ sudo yum install mysql-community-server #
+$ sudo service mysqld status # 查看服务是否启动成功
 ```
-sudo /usr/local/mysql/support-files/mysql.server stop
+## 登陆
 
+```shell
+$ mysql -uroot -p
+Enter password:
 ```
 
-## 环境变量配置
 
+
+## 环境变量配置(解决在mac上mysql命令不存在)
 1. 打开终端，进入根目录。
 ```
 cd ~
@@ -52,6 +68,9 @@ export PATH=${PATH}:/usr/local/mysql/bin
 然后，保存，退出TextEdit（一定是退出），关闭终端并退出。
 
 ## 修改root密码
+
+### Mac
+  （原来的操作）
 1. 先关闭数据库 苹果->系统偏好设置->关闭mysql服务（点击stop mysql server）
 
 2. 在终端输入：
@@ -67,15 +86,33 @@ sudo su  # 登录管理员权限
 ```shell
 ./mysql  # 输入后回车
 
-FLUSH PRIVILEGES;  # 输入后回车
+FLUSH PRIVILEGES;  # 有些需要刷新权限
 
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123');  # 设置密码
 
 # 至此修改结束，重启终端后，输入 mysql -u root -p 回车 再键入密码：123 就启动成功。
 
 ```
+### MySQL8版本密码修改问题
 
-## 删除 停止MySql进程，控制台输入一下命令。
+```shell
+# 查看密码策略（修改临时密码之后才可查看
+show variables like 'validate_password%'; ） # 8之前 validate_password_  8之后validate_password.
+
+# 修改密码策略
+set global validate_password.policy=0;(0或LOW代表低级)
+
+# 密码验证策略低要求
+set global validate_password.mixed_case_count=0;  #  密码至少要包含的小写字母个数和大写字母个数
+set global validate_password.number_count=0; #  密码至少要包含的数字个数
+set global validate_password.special_char_count=0; #  密码至少要包含的特殊字符数
+set global validate_password.length=6;  # 密码长度
+# 修改密码
+ ALTER user 'root'@'localhost' IDENTIFIED BY '密码' #  密码不能使用root
+# 修改完成后重启数据ku
+```
+
+## 完全删除 停止MySql进程，控制台输入一下命令。
 
 ```shell
 1、sudo rm /usr/local/mysql
@@ -138,5 +175,17 @@ mysql> status;
 # 或者
 
 mysql> \s
+
+```
+
+# 安装时常用命令
+```shell
+ps -ef | grep mysql       # 查看启动状态
+# 或
+service mysqld status     # 查看启动状态
+
+service mysqld start      # 启动服务
+service mysqld stop       # 停止服务
+service mysqld restart    # 重启服务
 
 ```
