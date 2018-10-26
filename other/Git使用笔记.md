@@ -3,10 +3,79 @@ Git使用笔记
 
 ## 目录
 
+- [配置ssh密钥](#配置ssh密钥)
 - [基本使用命令](#基本使用命令)
 - [解决中文乱码](#解决中文乱码)
 - [关联远程仓库](#关联远程仓库)
 
+
+## 配置ssh密钥
+
+### 配置
+首先是配置帐号信息 ssh -T git@github.com 测试。
+
+### 修改项目中的个人信息
+
+```shell
+git help config                                    # 获取帮助信息，查看修改个人信息的参数  
+git config --global user.name "小弟调调"            # 修改全局名字
+git config --global user.email "wowohoo@qq.com"    # 修改全局邮箱
+git config --list                                  # 查看配置的信息  
+
+```
+###  创建SSH密钥 
+这个密钥用来跟 github 通信，在本地终端里生成然后上传到 github
+
+```shell
+ssh-keygen -t rsa -C '12345@qq.com'                  # 生成密钥  
+ssh-keygen -t rsa -C "12345@qq.com" -f ~/.ssh/ww_rsa # 指定生成目录文件名字
+ssh -T git@github.com                                # 测试是否成功  
+```
+
+### 多账号ssh配置
+多账号配置，密钥命名不同然后通过`config`配置文件里分别引入
+
+1. 生成指定名称的密钥
+
+```shell
+ssh-keygen -t rsa -C "邮箱地址" -f ~/.ssh/github_rsa   # 会生成 github_rsa(私钥) 和 github_rsa.pub(公钥) 这两个文件。 如果想生成同名密钥替换原来的最好先删除原来的。本人踩好久坑
+```
+2. 密钥(公钥)复制到托管平台上
+```shell
+cat ~/.ssh/jslite_rsa.pub   #返回内容粘贴到github里settings->SSH anf GPG keys-->New SSH key 位置。个人建议不要用vim打开复制密钥。后面容易复制空格。
+```
+3. 修改config 配置文件  
+vim ~/.ssh/config #修改config文件，如果没有创建 config
+
+```shell
+Host gitlab
+    User git
+    Hostname git.showgold.cn
+    IdentityFile ~/.ssh/id_rsa
+
+Host github
+    User git
+    Hostname github.com 
+    IdentityFile ~/.ssh/github_rsa
+
+# Host 这里是个别名可以随便命名
+# HostName 一般是网站如：git@ss.github.com:username/repo.git 填写 github.com
+# User 通常填写git
+# IdentityFile 使用的公钥文件地址
+```
+
+4. 测试
+
+```shell
+ssh -T git@github.com         # `@`后面跟上定义的Host  
+ssh -T work.github.com        # 通过别名测试
+ssh -i ~/公钥文件地址 Host别名   # 如 ssh -i ~/.ssh/work_rsa work.github.com
+```
+5. 错误处理  
+
+如果出现错误提示：`Permission denied (publickey)`.因为新生成的key不能加入ssh就会导致连接不上github。
+ 
+先输入$ `ssh-agent`，再输入$ `ssh-add ~/.ssh/github_rsa`，这样就可以了。
 
 ## 基本使用命令
 
