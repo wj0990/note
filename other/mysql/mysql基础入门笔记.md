@@ -549,7 +549,48 @@ get: function (key) {
       }  //项目里应用到。
 ```
 
-###   修改被外键约束的列
+### 修改被外键约束的列
+
+### 备份数据库数据
+
+针对不同的场景下, 我们应该制定不同的备份策略对数据库进行备份, 一般情况下, 备份策略一般为以下4种   
+* 直接cp,tar复制数据库文件 
+如果数据量较小, 可以使用第一种方式, 直接复制数据库文件
+```shell
+mkdir /backup                      # 创建文件夹
+cp -a /var/lib/mysql/* /backup     # 保留权限的拷贝源数据文件
+ rm -rf /var/lib/mysql/*           # 删除数据所有文件
+ service mysqld restart            #重启MySQL, 如果是编译安装的应该不能启动, 如果rpm安装则会重新初始化数据库
+cp -a /backup/* /var/lib/mysql/    # 将备份的数据文件拷贝回去
+service mysqld restart             # 重启MySQL
+```
+
+* mysqldump+复制BIN LOGS  
+mysqldump是一个客户端的逻辑备份工具, 可以生成一个重现创建原始数据库和表的SQL语句, 可以支持所有的存储引擎, 对于InnoDB支持热备  
+
+```sql
+mysql> SELECT COUNT(*) FROM employees;   #由于篇幅原因, 我们这里只看一下employees的行数为300024
+```
+
+```shell
+mysqldump --all-databases --lock-all-tables  > backup.sql   #备份数据库到backup.sql文件中
+
+# 实例
+mysqldump -u root -p mywordpress > /var/mywordpress.sql  # 备份
+mysql -u [username] -p [database_name] < [dumpfilename.sql] # 导入  
+```
+* lvm2快照+复制BIN LOGS  
+[网上查找例子](https://www.cnblogs.com/SQL888/p/5751631.html)
+后面两个例子没有时间，后面做尝试
+* xtrabackup  
+
+
+
+
+
+
+
+
 
 > 前言  
 为啥我需要修改已经被外键约束的表？ 

@@ -94,6 +94,27 @@ SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123');  # 设置密码
 
 ```
 ### MySQL8版本密码修改问题
+* /var/log/mysqld.log 中找不到临时密码，或者多条记录  
+
+1. 删除原来安装过的mysql残留的数据（这一步非常重要，问题就出在这
+```shell
+rm -rf /var/lib/mysql
+```
+  
+2. 重启mysqld服务
+```shell
+systemctl restart mysqld
+```
+
+3.再去找临时密码
+```shell
+grep 'temporary password' /var/log/mysqld.log
+```
+
+* 密码验证问题
+```shell
+ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
+```
 
 ```shell
 # 查看密码策略（修改临时密码之后才可查看
@@ -110,6 +131,24 @@ set global validate_password.length=6;  # 密码长度
 # 修改密码
  ALTER user 'root'@'localhost' IDENTIFIED BY '密码' #  密码不能使用root
 # 修改完成后重启数据ku
+```
+
+* 查看密码  
+
+```shell
+mysql>  SHOW VARIABLES LIKE 'validate_password%';
++--------------------------------------+-------+
+| Variable_name                        | Value |
++--------------------------------------+-------+
+| validate_password.check_user_name    | ON    |
+| validate_password.dictionary_file    |       |
+| validate_password.length             | 6     |
+| validate_password.mixed_case_count   | 0     |
+| validate_password.number_count       | 0     |
+| validate_password.policy             | LOW   |
+| validate_password.special_char_count | 0     |
++--------------------------------------+-------+
+
 ```
 
 ## 完全删除 停止MySql进程，控制台输入一下命令。
@@ -187,5 +226,7 @@ service mysqld status     # 查看启动状态
 service mysqld start      # 启动服务
 service mysqld stop       # 停止服务
 service mysqld restart    # 重启服务
+\q   or  exit                      # 退出mysql
+ show global variables like 'port'; #查看默认端口号 
 
 ```
