@@ -347,3 +347,19 @@ git reset HEAD^  撤销上次commit
 
 ```
 
+## git 配置
+
+```shell
+git config --list                             # 查看git的所有配置
+
+git config user.email                         # 查看git配置的邮箱和用户名
+git config user.name
+
+git config user.email "***@**.com"            # 只修改当前项目下的邮箱和用户名
+git config user.name "你的用户名"
+
+git config --global user.email "***@**.com"   # 修改全局的邮箱和用户名
+git config --global user.name "你的用户名"
+
+```
+
