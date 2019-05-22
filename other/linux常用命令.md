@@ -4,7 +4,8 @@
  init一共分为7个级别，这7个级别的所代表的含义如下  
 
 ```shell  
-0：停机或者关机（千万不能将initdefault设置为0）# 开机会执行的两个进程是killall和halt，这两个都表示为终止进程。故init 0是用于表示关机的
+0：停机或者关机（千万不能将initdefault设置为0）# 开机会执行的
+两个进程是killall和halt，这两个都表示为终止进程。故init 0是用于表示关机的
 1：单用户模式，只root用户进行维护 # 这个级别启动的服务有三个，udev、lvm相关的和single(单用户模式的服务)。故此级别是单用户模式，只有root能用，不支持其他用户。
 2：多用户模式，不能使用NFS(Net File System)
 # 这个级别启动的服务多了，NetworkManager/iptables/acpid/alsa都已经开启，但是nfs,smb,openvpn相关服务没有开启，这个级别不支持nfs。

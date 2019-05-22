@@ -18,10 +18,12 @@ Git使用笔记
 
 ```shell
 git help config                                    # 获取帮助信息，查看修改个人信息的参数  
-git config --global user.name "小弟调调"            # 修改全局名字
+git config --global user.name "小弟调调"             # 修改全局名字
 git config --global user.email "wowohoo@qq.com"    # 修改全局邮箱
+git config user.name “gitlab’s Name”               # 修改项目名字
+git config user.email "gitlab@xx.com"              # 修改项目邮箱
 git config --list                                  # 查看配置的信息  
-
+git commit --amend --author “name <email>”         # 修改最近一条提交的用户名 、密码
 ```
 ###  创建SSH密钥 
 这个密钥用来跟 github 通信，在本地终端里生成然后上传到 github
