@@ -59,6 +59,7 @@ Executing (444a5afe-9635-40fd-90d7-10f5aa16077a): COMMIT;
 
 事务只解决了操作原子性的问题，另一个棘手的问题是并发。假设在 A 给 B 转账的过程中，恰巧 C 也给 A 转账 80，用 table 的形式演示并发过程中可能会发生的问题。
 
+| | |
 |-----|-----|
 | 事务1（A 给 B 转账）|事务2（C 给 A 转账）|
 ||查询 A 余额 200|
@@ -74,6 +75,7 @@ Executing (444a5afe-9635-40fd-90d7-10f5aa16077a): COMMIT;
 
 `悲观锁`: 对外界持保留态度，为了避免冲突，先给记录加上锁，在当前事务释放之前，其他事务要对该记录执行操作必须等待
 
+| | |
 |----|----|
 | 事务一（A 给 B 转账）| 事务二（C 给 A 转账）|
 | |查询 A 余额 200，并锁定记录 |
@@ -84,8 +86,9 @@ Executing (444a5afe-9635-40fd-90d7-10f5aa16077a): COMMIT;
 
 `MySql，Postgres` 都实现了悲观锁，执行相关语句即可（`select for update`），不需要开发。悲观锁的缺点是在读操作频繁的场景下，会影响吞吐量。  
  
-`乐观锁`:认为冲突没那么多，任何事务都可以先读取资源，在写入更新的时候做判断。通常会增加 version 字段，每次更新的时候 verion + 1，提交更新到数据库的时候，判断 version ，如果已失效则重试。
+`乐观锁`:认为冲突没那么多，任何事务都可以先读取资源，在写入更新的时候做判断。通常会增加 version 字段，每次更新的时候 verion + 1，提交更新到数据库的时候，判断 version ，如果已失效则重试。  
 
+| | |
 |-----|-----|
 | 事务一（A 给 B 转账）|
 | |事务二（C 给 A 转账）|
@@ -123,8 +126,8 @@ await Accounts.findOne({
 
 演示： 👈 事务没有结束的时候，👉 事务只能等待，直到排他锁释放。
 
-|-----|-----|
 | 事务1|事务2 |
+|-----|-----|
 |start transaction|start transaction|
 |select * from accounts where name='A' for update;	||
 |输出：A 100||
@@ -153,8 +156,8 @@ await Accounts.findOne({
 
 演示： 👈 👉的事务都能查询，👈事务想修改数据时，由于👉共享锁没有释放，修改操作只能等待。
 
-|-----|-----|
 | 事务1|事务2 |
+|-----|-----|
 |start transaction|start transaction|
 |select * from accounts where name='A' for share;		||
 |输出：A 100||
@@ -168,9 +171,10 @@ await Accounts.findOne({
 |set A.balances = 10	||
 |commit;||
 
-除了 lock，还有另一个配置和锁相关，是 sequelize.transaction(options) 的配置参数 isolationLevel，支持四个级别，分别是：
-| --- | --- | --- | --- |
+除了 lock，还有另一个配置和锁相关，是 sequelize.transaction(options) 的配置参数 isolationLevel，支持四个级别，分别是： 
+
 | 级别 | 脏读 | 不可重复读 | 幻读 |
+| --- | --- | --- | --- |
 | READ_UNCOMMITTED 读未提交| | | |
 | READ_COMMITTED 读已提交| ❌ | | |
 | REPEATABLE_READ 可重复读| ❌ | ❌ | |
@@ -181,8 +185,8 @@ await Accounts.findOne({
 `脏读`:指的是在一个事务中能读取到另一个事务内未 commit 的内容，如果另一个事务最终失败了，没有写入数据库，那么第一个事务就拿到了不存在的数据。
 
 ```
-|-----|-----|
 | 事务1|事务2 |
+|-----|-----|
 |start transaction|start transaction|
 |select * from accounts where name='A';	||
 |输出：A 100||
@@ -197,8 +201,8 @@ await Accounts.findOne({
 `不可重复读`: 描述在一个事务中，事务多次读取统一资源（本事务中没有修改操作），得到不同的结果。
 
 ```
-|-----|-----|
 | 事务1|事务2 |
+|-----|-----|
 |start transaction|start transaction|
 |select * from accounts where name='A';	| |
 |输出：A 100||
@@ -210,20 +214,19 @@ await Accounts.findOne({
 
 `幻读`:指的是出现了符合查询条件，但是之前没有👀到过。比如 queryAll 一个表中所有数据，设置 balances 为 0，但是由于其他事务同时写入新内容，于是新记录明明符合 queryAll 但是没有 balances 并不为 0，像👻一样。
 
-```
-|-----|-----|
 | 事务1|事务2 |
-|start transaction|start transaction|
-|select * from accounts;		| |
-|输出：A 100||
+| ----- | ----- |
+| start transaction|start transaction|
+| select * from accounts;		| |
+| 输出：A 100||
 | update accounts set balances=0;	| | 
-| |insert into accounts values ('B', 100);|
+| | insert into accounts values ('B', 100);|
 | commit| | 
 | select * from accounts;	| |
 | |commit|
 | | 输出：A 0, B 100	 |
 |输出：A 10 (这时候事务一并没有 commit)| |
-```
+
 
 在 Sequelize 中配置 isolationLevel
 
