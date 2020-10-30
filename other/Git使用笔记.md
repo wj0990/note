@@ -196,6 +196,25 @@ git reset commit_id （回退到上一个 提交的节点 代码还是原来你�
 git reset –hard commit_id （回退到上一个commit节点， 代码也发生了改变，变成上一次的）
 ```
 
+### 修改分支名
+
+```shell
+
+1. 本地分支重命名(还没有推送到远程)
+git branch -m oldName newName # 本地分支重命名(还没有推送到远程)
+
+2. 远程分支重命名 (已经推送远程-假设本地分支和远程对应分支名称相同)
+
+git branch -m oldName newName # a. 重命名远程分支对应的本地分支
+
+git push --delete origin oldName # b. 删除远程分支
+
+git push origin newName # c. 上传新命名的本地分支
+
+git branch --set-upstream-to origin/newName # d.把修改后的本地分支与远程分支关联
+
+```
+
 ## 创建
 
 ```shell
