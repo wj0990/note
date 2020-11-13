@@ -213,6 +213,10 @@ git push origin newName # c. 上传新命名的本地分支
 
 git branch --set-upstream-to origin/newName # d.把修改后的本地分支与远程分支关联
 
+git checkout -b preview-dev # 从当前分支拉copy开发分支，创建并切换 feature 分支
+
+git push origin preview-dev  # 把新建的分支push到远端
+
 ```
 
 ## 创建
