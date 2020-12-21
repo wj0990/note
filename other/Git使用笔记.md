@@ -134,6 +134,16 @@ git remote add origin http://github.com/wangchuxi/test.git
 git push -u orign master   # 11. 提交代码到远程仓库的 master 分支
 
 ```
+## Git 缓存代码
+
+```
+Git stash – 提交至暂存区
+Git checkout 分支2 – 切换至分支2
+Git stash apply XXX – 拉起暂存区代码至本地，并且仍保留于暂存区
+Git stash pop XXX – 拉起暂存区代码至本地，并且清除暂存区记录
+Git stash clear XXX – 清除暂存区记录
+
+```
 
 ## 关联远程仓库
 
