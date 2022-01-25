@@ -9,15 +9,19 @@ Docker可视化工具Portainer
 ### 创建portainer 图形界面
 
 查看 portainer
+
 `
 docker search portainer 
 `
+
 下载容器
+
 `
 docker pull portainer/portainer
 `
 
 基于镜像运行容器
+
 ```
  -d: 后台运行容器，并返回容器ID；
  -p: 指定端口映射，格式为：主机(宿主)端口:容器端口
@@ -32,12 +36,14 @@ docker run -d -p 8000:8000 -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.
 ### Portainer忘记密码，重置密码
 [参考地址](https://www.jianshu.com/p/db13ab95e624)
 
-1. 首先查看portainer 容器的挂在信息
+1. 首先查看portainer 容器的挂在信息  
+
 `
 docker inspect [容器ID/容器名称]
 `
 
 2. 停掉porainer运行的容器
+
 `
 docker container stop [容器ID/容器名称]
 `
