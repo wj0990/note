@@ -41,7 +41,8 @@ docker inspect [容器ID/容器名称]
 `
 docker container stop [容器ID/容器名称]
 `
-3.执行(详情上挂载信息 Hostconfig/binds/portainer_data:/data)
+
+3. 执行(详情上挂载信息 Hostconfig/binds/portainer_data:/data)
 
 `
 docker run --rm -v portainer_data:/data portainer/helper-reset-password
