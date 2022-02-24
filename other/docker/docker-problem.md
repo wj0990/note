@@ -11,5 +11,5 @@ apt-get update
 
 执行命令：apt-get install vim -y 安装vim
 ```shell
-apt-get install
+apt-get install vim -y
 ```
