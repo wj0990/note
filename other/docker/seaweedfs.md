@@ -1,55 +1,61 @@
 # seaweedfs
 
+SeaweedFS是一种简单的、高度可扩展的分布式文件系统。SeaweedFS是一个非常优秀的由 go语言开发的分布式存储开源项目。它是用来存储文件的系统，并且与使用的语言无关，使得文件储存变得非常方便，它有两个优势:
+
+1. 存储数十亿的文件!
+2. 查看文件速度快!
+
+SeaweedFS设计用来有效地存储处理小文件，较大文件可以分块拆分为小文件进行上传。所有文件的元数据不存储在Master节点，而是分散存储在Volume（逻辑卷，存储数据的逻辑结构）中，Master节点只保存卷 ID 到卷服务器的映射，这样一来，Master节点的查询压力就被分散到volume节点了。这些文件卷服务器各自管理各自的元数据，存储在卷服务器上的所有文件元信息都可以从内存中读取，而无需访问磁盘。所以这样在高并发的情况下减少了主节点的压力和网络通信，同时定位文件也更迅速。其主要应用场景是存储海量的图片信息并且可以快读定位。
+
+weed是使用Go语言开发的，[官方文档](https://github.com/chrislusf/seaweedfs/)wiki [Github主页(https://github.com/chrislusf/)seaweedfs，使用weed可以通过源码编译，需要提前安装Go环境；也可以使用编译好的二进制包，不依赖Go环境直接执行
+
 ## seaweedfs 用docker快速布署及测试
 
+开启master容器
 ```shell
 docker run -p 9333:9333 --name master chrislusf/seaweedfs:2.8.9 master
 ```
 
-+ --name master：容器名字为  master
-+ -p 9333:9333：将容器的 3306(右侧) 端口映射到主机的 3306（左侧）端口  
-+ chrislusf/seaweedfs:2.8.9 远程镜像文件  
-+ -v $HOME/_docker/mysql/data：将主机当前目录下的 data 目录挂载到容器的 /var/lib/mysqs，为数据文件存放路径  
-+ -e MYSQL_ROOT_PASSWORD=123456：初始化root用户的密码  
-
-
-拉取官方的镜像，标签为5.7，[Docker官方资料](https://hub.docker.com/_/mysql/)、[MySQL 官方资料](https://dev.mysql.com/doc/refman/8.0/en/docker-mysql-more-topics.html)，[MySQL镜像](https://docs.docker.com/docker-hub/official_images/)  
-
+开启 volume容器
 ```shell
-docker pull mysql:5.7.23
-# Trying to pull repository docker.io/library/mysql ...
-# 5.7: Pulling from docker.io/library/mysql
-# 85b1f47fba49: Already exists
-# f34057997f40: Pull complete
-# ....
-# Digest: sha256:bfb22e93ee87c6aab6c1c9a4e70f28fa289f9ffae9fe8e173
+docker run -p 8080:8080 -p 18080:18080 --name volume --link master chrislusf/seaweedfs volume -max=5 -mserver="master:9333" -port=8080
 ```
-## 运行容器
 
-```shell
-docker run --name mysql \
-  -p 3306:3306 \
-  -v $HOME/_docker/mysql/conf.d:/etc/mysql/conf.d \
-  -v $HOME/_docker/mysql/data:/var/lib/mysql \
-  -v /etc/localtime:/etc/localtime:ro \ # 文件存在不存在一直报错 暂未解决直接删掉了
-  -e MYSQL_ROOT_PASSWORD=123456 \
-  -d mysql:5.7.23
+用浏览器访问，就能看到当前状态
+http://localhost:9333/
+
+
+### 上传文件测试
+
+第一步：请求分配一个文件号
+http://localhost:9333/dir/assign
+
+```js
+# callback
+{
+ "fid":"1,0166b36f3a",
+ "url":"172.17.0.14:8080","publicUrl":"172.17.0.14:8080","count":1}
+}
 ```
-+ --name mysql：容器名字为 mysql  
-+ -p 3306:3306：将容器的 3306 端口映射到主机的 3306 端口  
-+ -v $HOME/_docker/mysql/conf.d：将主机当前目录下的 ~/_docker/mysql/conf.d 挂载到容器的 /etc/mysql/conf.d，这个是挂载配置目录  
-+ -v $HOME/_docker/mysql/data：将主机当前目录下的 data 目录挂载到容器的 /var/lib/mysqs，为数据文件存放路径  
-+ -e MYSQL_ROOT_PASSWORD=123456：初始化root用户的密码  
+第二步：执行上传
+在命令行中执行，注意ip地址，不要用172那个，因为它是容器内的。要使用宿主机的ip地址
+curl -F file=/Users/home/logo.png http://192.168.31.187:8080/1,0166b36f3a
 
-## 安装报错问题
+```js
+# callback
+{"size":42,"eTag":"fc11785c"}
+```
 
-1. docker挂载mysql数据卷启动失败问题(Only one log file found)  
+第三步：访问文件查看结果
 
-主要是因为我修改了虚拟机的内存分配, 导致mysql 8写日志的大小计算出了问题.
-删除文件让mysql重新生成OK, 或者可以把虚拟机设置为原来分配的内存大小
+http://宿主机ip:8080/1,0166b36f3a
 
-删除以下文件(建议删除前备份):
+## 相关背景技术博客
 
-```shell
-data/ib_logfile0
-data/ib_logfile1
+seaweedfs源码解析：https://www.bbsmax.com/A/6pdDYXQKzw/
+
+seaweedfs部署相关：https://www.bbsmax.com/A/n2d9Gw84JD/
+
+http://www.wjhsh.net/quchunhui-p-14086075.html
+
+http://www.diyhi.com/seaweedfs.html
