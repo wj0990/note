@@ -398,3 +398,24 @@ git config --global user.name "你的用户名"
 
 ```
 
+## git 升级
+
+复制[homebrew](https://brew.sh/)官网指令下载
+
+Mac 安装homebrew 报错
+
+```
+fatal: unable to access ‘https://github.com/Homebrew/brew/’: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+```
+
+### 解决办法
+
+[https://www.ipaddress.com/](https://www.ipaddress.com/) 
+查询无法获取的ip地址
+
+vim /etc/hosts,进入文件 (注意:如果权限不够则通过:sudo vim /etc/hosts)  
+
+输入地址 保存重启编辑器  
+`180.174.132.160 github.com`
+
+保存之后，重新运行homebrew的下载指令即可成功
