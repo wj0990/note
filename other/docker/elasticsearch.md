@@ -20,7 +20,7 @@ docker run \
   -e ES_JAVA_OPTS="-Xms512m -Xmx512m"
   docker.elastic.co/elasticsearch/elasticsearch:6.4.2
 ```
-- discovery.type=single-node集群默认单个节点  
+- discovery.type=single-node        集群默认单个节点  
 - ES_JAVA_OPTS="-Xms512m -Xmx512m" 设置最大最小堆  最大堆值不能超过物理内存50%  
 - docker.elastic.co/elasticsearch/elasticsearch 镜像名称
 - 默认的用户名密码: elastic/changeme
@@ -189,4 +189,41 @@ Caused by: java.nio.file.AccessDeniedException: /usr/share/elasticsearch/data/no
 
 ```shell
 chmod -R 777 /gitlab-runner/data/wabg/wabg-api/elasticSearch/data
+```
+
+## 解决docker 跨域问题
+
+1. docker命令进入elasticsearch对应的容器
+
+docker exec -it [containerID] /bin/bash
+
+2. 安装vim编辑器 或直接用vi
+更改配置文件，需要使用到vim，已安装可以忽略
+
+apt-get update
+apt-get install vim
+
+3. 进入到/config/elasticsearch.yml配置文件，添加以下配置代码：
+
+```shell
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: "*"
+xpack.security.enabled: false
+
+```
+配置文件如下
+
+```shell
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: "*"
+xpack.security.enabled: false
+
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+# set to 1 to allow single node clusters
+# Details: https://github.com/elastic/elasticsearch/pull/17288
+discovery.zen.minimum_master_nodes: 1
 ```

@@ -1,0 +1,65 @@
+version: '2'
+
+services:
+  master_1:
+    image: chrislusf/seaweedfs:2.88
+    container_name: master_1
+    ports:
+      - 9333:9333
+      - 19333:19333
+    #执行多条指令
+    command: "master -ip=master_1 -port=9333  -peers=master_1:9333"
+    volumes:
+      - "$HOME/_docker/seaweedfs/master_1/data:/data"
+  master_2:
+    image: chrislusf/seaweedfs:2.88
+    container_name: master_2
+    ports:
+      - 9334:9334
+      - 19334:19334
+    command: "master -ip=master_2 -port=9334 -peers=master_1:9333,master_2:9334"
+    volumes:
+      - "$HOME/_docker/seaweedfs/master_2/data:/data"
+  volume_1:
+    image: chrislusf/seaweedfs:2.88
+    container_name: volume_1
+    ports:
+      - 8080:8080
+      - 18080:18080
+
+    command: 'volume -max=5 -port=8080 -mserver=master_1:9333'
+    volumes:
+      - "$HOME/_docker/seaweedfs/volume_1/volumes/data:/data"
+    depends_on:
+      - master_1
+      - master_2
+  volume_2:
+    image: chrislusf/seaweedfs:2.88
+    container_name: volume_2
+    ports:
+      - 8081:8081
+      - 18081:18081
+    command: 'volume -max=5 -port=8081 -mserver=master_1:9333,master_2:9334'
+    volumes:
+      - "$HOME/_docker/seaweedfs/data:/data"
+    depends_on:
+      - master_1
+      - master_2
+    filer:
+      image: chrislusf/seaweedfs:2.88
+      ports:
+        - 8888:8888
+        - 18888:18888
+      command: 'filer -master="master_1:9333,master_2:9334,master_3:9335"'
+      tty: true
+      stdin_open: true
+      depends_on:
+        - master_1
+        - master_2
+        - volume_1
+        - volume_2
+      # command 执行多条命令
+      # 1、 -dir表示该DataNode数据存储的目录；
+      # 2、-max表示volume个数最大值；
+      # 3、-mserver表示Master地址；
+      # 4、-port该DataNode监听的端口；
