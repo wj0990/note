@@ -1,6 +1,8 @@
 
 
 #### mac docker 修改 daemon.json 
+docker默认的源为国外官方源，下载速度较慢，可改为国内，加速
+修改或新增 /etc/docker/daemon.json
 
 点击docker图标 -> preference -> Daemon ->Advenced
 
@@ -17,6 +19,10 @@
   "experimental" : true
 }
 ```
+
+#### linux docker 修改 daemon.json 
+
+
 
 Docker中国官方镜像加速
 
