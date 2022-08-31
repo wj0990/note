@@ -8,8 +8,9 @@ docker pull redis:5.0.14
 
 ## 运行容器
 
+
 ```shell
-docker run -d --rm -p  6379:6379 --name redis2 redis:5.0.14 redis-server --appendonly yes
+docker run -d --rm -p  6379:6379 --name redis2 redis:5.0.14 redis-server --appendonly yes --requirepass "redis123456"
 ```
 
 --name="容器新名字": 为容器指定一个名称；  
