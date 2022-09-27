@@ -27,7 +27,7 @@ docker pull portainer/portainer
  -p: 指定端口映射，格式为：主机(宿主)端口:容器端口
  --volume , -v: 绑定一个卷
 
-docker run -d -p 8000:8000 -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/Users/wangjie/docker/portainer/data portainer/portainer
+docker run --restart always -d -p 8000:8000 -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/Users/wangjie/docker/portainer/data portainer/portainer
 ```
 
 本地访问 界面登陆地址 http://127.0.0.1:9001/
