@@ -289,11 +289,12 @@ git init                # 加载package.json 文件
 npm run dev             # 运行分支
 ```
 
-## wabg-api 项目中更新代码 并合并上游代码（合并时候注意）
+## 项目中更新代码 并合并上游代码（合并时候注意）
 
 ```shell 
 git status               # 将确认无误的代码打包
 git commit -m "更新"      # 描述更新内容。
+git commit --amend --no-edit # 次提交合并到上次提交信息上
 git push origin wj       # 将wj分支推送到远程仓库
 git pull origin master   # 将项目拉到本地
 git push origin wj       # 将代码推到远程仓库完成合并。
@@ -319,6 +320,7 @@ git branch -d wj123         #删除分支
 ``` shell
 git reflog                # 查看你的历史变更记录
 git reset --hard HEAD@{n} #(n是你要回退到的引用位置）回退你要指定的那次操作。
+git reset --soft HEAD~1 # 回退到上次提交不清除本地提交的代码
 ```
 
 ## git fetch 和 git pull的区别：
