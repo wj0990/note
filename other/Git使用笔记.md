@@ -5,6 +5,8 @@ Git使用笔记
 
 - [配置ssh密钥](#配置ssh密钥)
 - [基本使用命令](#基本使用命令)
+- [tag标签相关命令](#tag标签相关命令)
+
 - [解决中文乱码](#解决中文乱码)
 - [关联远程仓库](#关联远程仓库)
 
@@ -106,7 +108,44 @@ git commit -m "first commit" # 6. 提交说明
 git remote add origin https://github.com/wangchuxi/test.git  
 git push -u origin master # 8. 提交代码到远程origin仓库 的 master 分支 在远程仓库里没有master分支时，创建一个master分支。
 ```
+## tag标签相关命令
 
+```shell
+
+git tag # 查看tag
+
+git tag -a <tagname> -m “描述” # 新增tag
+git push origin <tagname> # 推送一个本地标签
+git push origin --tags # 推送全部未推送过的本地标签
+
+# 查看目前存在的远程tag列表
+
+git show-ref --tags 
+# 或者
+git tag -l
+
+git tag -d <tagname>  # 删除本地tag
+git push origin :refs/tags/<tagName> # 删除远程tag
+
+# 批量删除
+ #  $2      对第二列进行操作，即 refs/tags/这一列
+ #  ~       匹配
+ #  '//'    awk 模式匹配的开始结束标志
+ # \.1\..  第一位是1 ， 在正则中 . 匹配任意单个字符，所以这里 \. 类似于转义，纯粹标识字符 (.) 后面 的\. 也是标识字符 .  所以这个正则的含义解读为 ：匹配第二列，然后对第二列进行正则匹配 字符（1.1.x），x表示任意单个字符。
+git show-ref --tag|awk '$2~/1\.1\..' # 需要删除1.1.x的tag列表
+
+# {print ":" $2} 输出字符串 :+第二列 ，组成字符串 类似于 （:refs/tags/1.1.0）
+# xargs git push origin 将前面的输出结果作为参数执行删除命令
+git show-ref --tag |awk '$2~/1\.1\../ {print ":" $2}'| xargs git push origin
+
+# 删除本地tag 同理 
+
+git tag -l |awk '/1\.1\../' | xargs git tag -d
+
+# 远程分支删除完 删除本地
+git tag|xargs git tag -d|git pull
+
+```
 
 ## 解决中文乱码
 
